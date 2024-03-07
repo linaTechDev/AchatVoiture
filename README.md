@@ -4,7 +4,7 @@
 
 ## 📦 Explication du projet
 
-**Langages utilisés** `PostgreSQL` `Java` `Spring Boot` `React` `JavaScript` `CSS`
+**Langages utilisés** `PostgreSQL` `Java` `Spring Boot` `React` `JavaScript` `HTML` `CSS`
 
 - Le projet que j'ai choisi de développer pour mon cours de synthèse des apprentissages consiste en la création d'un site d'achat de voitures en ligne.
   L'objectif principal de ce site est de fournir aux utilisateurs une expérience simplifiée et diversifiée, leur permettant d'explorer,
@@ -18,3 +18,7 @@
   En intégrant ces technologies, le site garantira une expérience utilisateur fluide tout en permettant aux visiteurs d'explorer une gamme étendue de véhicules, de comparer des modèles
   et de personnaliser leurs choix sans complications. L'approche technique adoptée vise à assurer la performance, la sécurité et la diversité des fonctionnalités, offrant ainsi une plateforme
   d'achat de voitures en ligne moderne et accessible.
+
+## UML du site de voitures
+
+![image](https://github.com/linaTechDev/AchatVoiture/assets/89488093/c5ba6e9a-33b0-4fcb-bc9c-4d5dd1b6a560)
