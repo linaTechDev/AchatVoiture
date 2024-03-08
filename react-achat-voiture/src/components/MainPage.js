@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 import {cars} from "../data/cars";
 
 const MainPage = () => {
-    const carsVedettes = cars.slice(0, 10);
+    const carsVedettes = cars.slice(0, 12);
 
     return (
         <div className="home-page">
