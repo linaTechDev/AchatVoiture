@@ -1,8 +1,11 @@
 import React from "react";
 import "./MainPage.css"
 import {Link} from "react-router-dom";
+import {cars} from "../data/cars";
 
 const MainPage = () => {
+    const carsVedettes = cars.slice(0, 10);
+
     return (
         <div className="home-page">
             <header className="header">
@@ -26,6 +29,11 @@ const MainPage = () => {
 
             <section className="featured-section">
                 <h2>Voitures en Vedette</h2>
+                {carsVedettes.map((car, index) => (
+                    <div key={index} className="featured-car">
+                        <img src={car.imageVoiture} alt={`${car.marque} ${car.model}`}/>
+                    </div>
+                ))}
             </section>
 
             <section className="about-section">
