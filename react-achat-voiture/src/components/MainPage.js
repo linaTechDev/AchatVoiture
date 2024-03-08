@@ -29,11 +29,13 @@ const MainPage = () => {
 
             <section className="featured-section">
                 <h2>Voitures en Vedette</h2>
-                {carsVedettes.map((car, index) => (
-                    <div key={index} className="featured-car">
-                        <img src={car.imageVoiture} alt={`${car.marque} ${car.model}`}/>
-                    </div>
-                ))}
+                <div className="featured-cars">
+                    {carsVedettes.map((car, index) => (
+                        <div key={index} className="featured-car">
+                            <img src={car.imageVoiture} alt={`${car.marque} ${car.model}`}/>
+                        </div>
+                    ))}
+                </div>
             </section>
 
             <section className="about-section">
