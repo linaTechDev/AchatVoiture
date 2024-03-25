@@ -52,6 +52,9 @@ public class VoituresDB implements CommandLineRunner {
             }
 
             String detail = (String) car.get("model");
+            if (detail == null) {
+                detail = "";
+            }
 
             double randomPrix = rangeMin + (rangeMax - rangeMin) * r.nextDouble();
 
@@ -81,7 +84,11 @@ public class VoituresDB implements CommandLineRunner {
             String marque = (String) car.get("make");
             String model = (String) car.get("model");
             String annee = (String) car.get("year");
+
             String rouesMotrice = (String) car.get("drive");
+            if (rouesMotrice == null) {
+                rouesMotrice = "";
+            }
 
             int nbrCylindre = 0;
             if(car.get("cylinders") != null) {
@@ -124,6 +131,9 @@ public class VoituresDB implements CommandLineRunner {
                 carburant = "diesel";
             } else if (Objects.equals(carburant, "Electricity")) {
                 carburant = "electrique";
+            } else if (Objects.equals(carburant, "Regular Gas or Electricity") ||
+                        Objects.equals(carburant, "Premium Gas or Electricity")) {
+                carburant = "hybride";
             } else {
                 carburant = "inconnu";
             }

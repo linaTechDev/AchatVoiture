@@ -63,6 +63,7 @@ public class Voiture {
         CNG,
         diesel,
         electrique,
+        hybride,
         inconnu
     }
 
