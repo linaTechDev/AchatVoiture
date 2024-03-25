@@ -5,11 +5,14 @@ import logo from "../images/Heading.png";
 import Dropdown from 'react-bootstrap/Dropdown';
 
 const MainPage = () => {
-    //const carsVedettes = cars.slice(0, 12);
     const [voitures, setVoitures] = useState([]);
+    const [marques, setMarques] = useState([]);
+    const [checkedState, setCheckedState] = useState({});
+    const [selectAll, setSelectAll] = useState(false);
 
     useEffect(() => {
         fetchVoitureList()
+        fetchMarqueList()
     }, []);
 
     async function fetchVoitureList() {
@@ -47,22 +50,62 @@ const MainPage = () => {
         }
     }
 
-    const [options, setOptions] = useState([
-        { id: 1, label: 'Option 1', isChecked: false },
-        { id: 2, label: 'Option 2', isChecked: false },
-        { id: 3, label: 'Option 3', isChecked: false },
-        { id: 4, label: 'Option 4', isChecked: false },
-    ]);
+    async function fetchMarqueList() {
+        try {
+            fetch(
+                "http://localhost:8081/api/marques/",
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-type': 'application/json'
+                    }
+                }
+            ).catch(error => {
+                console.log(error)
+            }).then(
+                async (res) => {
+                    const data = await res.json()
+                    try {
+                        console.log(res.status)
+                        if (res.status === 400) {
+                            console.log(res.status)
+                        }
+                    } catch (e) {
+                        console.log(e)
+                    }
+                    setMarques(data);
+                    console.log(data);
+                }
+            )
+        } catch (error) {
+            console.log("Une erreur est survenue : ", error)
+            if (voitures !== undefined) {
+                setMarques(marques);
+            }
+        }
+    }
 
-    const toggleCheckbox = (id) => {
-        setOptions(options.map(option =>
-            option.id === id ? { ...option, isChecked: !option.isChecked } : option
-        ));
+    const toggleCheckbox = (marque) => {
+        const newState = { ...checkedState, [marque]: !checkedState[marque] };
+        setCheckedState(newState);
+        setSelectAll(Object.values(newState).every(value => value));
     };
 
     const handleSelectAll = () => {
-        const allChecked = options.every(option => option.isChecked);
-        setOptions(options.map(option => ({ ...option, isChecked: !allChecked })));
+        const newState = {};
+        if (!selectAll) {
+            marques.forEach(option => {
+                newState[option.marque] = true;
+            });
+        }
+        setCheckedState(newState);
+        setSelectAll(!selectAll);
+    };
+
+    const filterVoituresByMarque = () => {
+        const selectedMarques = Object.keys(checkedState).filter(marque => checkedState[marque]);
+        if (selectedMarques.length === 0 || selectAll) return voitures;
+        return voitures.filter(item => selectedMarques.includes(item.marque));
     };
 
     return (
@@ -88,34 +131,34 @@ const MainPage = () => {
 
             <section className="featured-section">
                 <Dropdown>
-                    <Dropdown.Toggle variant="primary" id="dropdown-basic">
-                        Select Options
+                    <Dropdown.Toggle variant="dark" id="dropdown-basic">
+                        Filtre par marque
                     </Dropdown.Toggle>
 
                     <Dropdown.Menu className="dropdown-content">
                         <div>
                             <input
                                 type="checkbox"
-                                checked={options.every(option => option.isChecked)}
+                                checked={selectAll}
                                 onChange={handleSelectAll}
                             />
-                            <label>Select All</label>
+                            <label>Tout sélectionner</label>
                         </div>
-                        {options.map(option => (
-                            <div key={option.id}>
+                        {marques.map(option => (
+                            <div key={option.marque}>
                                 <input
                                     type="checkbox"
-                                    checked={option.isChecked}
-                                    onChange={() => toggleCheckbox(option.id)}
+                                    checked={checkedState[option.marque] || false}
+                                    onChange={() => toggleCheckbox(option.marque)}
                                 />
-                                <label>{option.label}</label>
+                                <label>{option.marque}</label>
                             </div>
                         ))}
                     </Dropdown.Menu>
                 </Dropdown>
-                <h2>Voitures en Vedette</h2>
+                <h2>Liste des voitures</h2>
                 <div className="featured-cars">
-                    {voitures.map((car, index) => (
+                    {filterVoituresByMarque().map((car, index) => (
                         <div key={index} className="featured-car">
                             <img src={car.imageVoiture} alt={`${car.marque} ${car.model}`}/>
                         </div>
