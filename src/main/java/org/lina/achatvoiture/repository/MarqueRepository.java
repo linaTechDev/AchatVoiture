@@ -12,7 +12,7 @@ public interface MarqueRepository extends JpaRepository<Marque, Long> {
     @Modifying
     @Transactional
     @Query(value = "INSERT INTO Marque (id, marque) select id,marque " +
-            "from ( SELECT distinct voiture.marque,rank() over (order by Voiture.id asc) as id " +
+            "from ( SELECT distinct voiture.marque,rank() over (order by Voiture.marque asc) as id " +
             "from Voiture) tmp", nativeQuery = true)
-    int createMarques();
+    void createMarques();
 }
