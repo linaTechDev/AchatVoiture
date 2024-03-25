@@ -67,12 +67,13 @@ nav a {
 
 .cta-button {
     display: inline-block;
-    background-color: #ffffff;
+    background-color: white;
     color: #0f0f0f;
     padding: 10px 20px;
     text-decoration: none;
     font-weight: bold;
     border-radius: 5px;
+    border-color: white;
     margin-top: 20px;
 }
 

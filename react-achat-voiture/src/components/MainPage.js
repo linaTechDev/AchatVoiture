@@ -108,6 +108,13 @@ const MainPage = () => {
         return voitures.filter(item => selectedMarques.includes(item.marque));
     };
 
+    const scrollToDropdown = () => {
+        const dropdownElement = document.getElementById('featured-section');
+        if (dropdownElement) {
+            dropdownElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    };
+
     return (
         <div className="home-page">
             <header className="header">
@@ -115,27 +122,28 @@ const MainPage = () => {
                 <nav className="navbar">
                     <ul>
                         <li><Link to="/">Accueil</Link></li>
-                        <li><Link to="/marques">Marques</Link></li>
-                        <li><Link to="/recherche">Recherche</Link></li>
+                        <li><Link to="/pannier">Pannier</Link></li>
                     </ul>
                 </nav>
             </header>
 
             <section className="hero-section">
-            <div className="hero-content">
+                <div className="hero-content">
                     <h2>Découvrez le monde sur roues avec notre service de location de voitures</h2>
                     <p>Découvrez l'excellence automobile</p>
-                    <Link to="/recherche" className="cta-button">Trouvez votre voiture</Link>
+                    <button className="cta-button" onClick={scrollToDropdown}>
+                        Trouver votre voiture
+                    </button>
                 </div>
             </section>
 
-            <section className="featured-section">
+            <section className="featured-section" id="featured-section">
                 <Dropdown>
-                    <Dropdown.Toggle variant="dark" id="dropdown-basic">
+                <Dropdown.Toggle variant="dark" id="dropdown-basic">
                         Filtre par marque
                     </Dropdown.Toggle>
 
-                    <Dropdown.Menu className="dropdown-content">
+                    <Dropdown.Menu className="dropdown-content" id="filter-dropdown">
                         <div>
                             <input
                                 type="checkbox"
