@@ -7,10 +7,14 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface VoitureRepository extends JpaRepository<Voiture, Long> {
     @Query("SELECT v FROM Voiture v WHERE v.marque = ?1")
     Voiture findVoitureByMarque(String marque);
+
+    Optional<Voiture> findVoitureById(long id);
 
     @Modifying
     @Transactional
