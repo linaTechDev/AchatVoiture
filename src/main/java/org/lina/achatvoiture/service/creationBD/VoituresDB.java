@@ -5,6 +5,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.lina.achatvoiture.dto.VoitureDto;
+import org.lina.achatvoiture.service.MarqueService;
 import org.lina.achatvoiture.service.VoitureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -20,11 +21,15 @@ import java.util.Random;
 public class VoituresDB implements CommandLineRunner {
     @Autowired
     private VoitureService voitureService;
+    @Autowired
+    private MarqueService marqueService;
 
     @Override
     public void run(String... args) throws IOException, ParseException {
         System.out.println("Création...");
         readJSON();
+        marqueService.saveMarques();
+        System.out.println("Création fin");
     }
 
     public void readJSON() throws IOException, ParseException {
