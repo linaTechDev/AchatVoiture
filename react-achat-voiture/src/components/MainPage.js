@@ -1,12 +1,51 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import "./MainPage.css"
 import {Link} from "react-router-dom";
-import {cars} from "../data/cars";
 import logo from "../images/Heading.png";
 import Dropdown from 'react-bootstrap/Dropdown';
 
 const MainPage = () => {
-    const carsVedettes = cars.slice(0, 12);
+    //const carsVedettes = cars.slice(0, 12);
+    const [voitures, setVoitures] = useState([]);
+
+    useEffect(() => {
+        fetchVoitureList()
+    }, []);
+
+    async function fetchVoitureList() {
+        try {
+            fetch(
+                "http://localhost:8081/api/voitures/",
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-type': 'application/json'
+                    }
+                }
+            ).catch(error => {
+                console.log(error)
+            }).then(
+                async (res) => {
+                    const data = await res.json()
+                    try {
+                        console.log(res.status)
+                        if (res.status === 400) {
+                            console.log(res.status)
+                        }
+                    } catch (e) {
+                        console.log(e)
+                    }
+                    setVoitures(data);
+                    console.log(data);
+                }
+            )
+        } catch (error) {
+            console.log("Une erreur est survenue : ", error)
+            if (voitures !== undefined) {
+                setVoitures(voitures);
+            }
+        }
+    }
 
     const [options, setOptions] = useState([
         { id: 1, label: 'Option 1', isChecked: false },
@@ -76,7 +115,7 @@ const MainPage = () => {
                 </Dropdown>
                 <h2>Voitures en Vedette</h2>
                 <div className="featured-cars">
-                    {carsVedettes.map((car, index) => (
+                    {voitures.map((car, index) => (
                         <div key={index} className="featured-car">
                             <img src={car.imageVoiture} alt={`${car.marque} ${car.model}`}/>
                         </div>
