@@ -51,6 +51,7 @@ nav a {
 
 .hero-section {
     background-image: url('../images/backgrnd.png');
+    height: 600px;
     background-size: cover;
     background-position: center;
     display: flex;
