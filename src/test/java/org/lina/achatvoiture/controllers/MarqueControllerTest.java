@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest(MarqueController.class)
-public class MarqueControllerTest {
+class MarqueControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
@@ -35,11 +35,9 @@ public class MarqueControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private List<MarqueDto> marqueDtos;
-
-    @Before
-    public void setup() {
-        marqueDtos = Arrays.asList(
+    @Test
+    public void testGetAllMarques() throws Exception {
+        List<MarqueDto> marqueDtos = Arrays.asList(
                 new MarqueDto(
                         1L,
                         "BMW"
@@ -53,10 +51,7 @@ public class MarqueControllerTest {
                         "Audi"
                 )
         );
-    }
 
-    @Test
-    public void testGetAllMarques() throws Exception {
         when(marqueService.getAllMarques())
                 .thenReturn(marqueDtos);
 
