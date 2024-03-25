@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class VoitureController {
     private final VoitureService voitureService;
 
-    @GetMapping("get/{marque}")
+    @GetMapping("/get/{marque}")
     public ResponseEntity<VoitureDto> getVoitureByMarque(@PathVariable String marque) {
         try {
             VoitureDto voitureDto = voitureService.getVoitureByMarque(marque);
