@@ -18,14 +18,19 @@ public class Voiture {
 
     private String marque;
     private String model;
+    private String detail;
     private int annee;
     private double prix;
     private double kilometrage;
+    private String rouesMotrice;
+    private int nbrCylindre;
+    private String categorieTailleVoiture;
 
     @Enumerated(EnumType.STRING)
     private ChoixCarburant carburant;
     @Enumerated(EnumType.STRING)
     private ChoixTransmission transmission;
+    private String nbrVitesseTransmission;
 
     @Lob
     private String imageVoiture;
@@ -35,24 +40,35 @@ public class Voiture {
                 id,
                 marque,
                 model,
+                detail,
                 annee,
                 prix,
                 kilometrage,
+                rouesMotrice,
+                nbrCylindre,
+                categorieTailleVoiture,
                 carburant.toString(),
                 transmission.toString(),
+                nbrVitesseTransmission,
                 imageVoiture
         );
     }
 
 
     public enum ChoixCarburant {
-        essence,
+        essenceRegulier,
+        essenceMoyen,
+        essencePremium,
+        E85,
+        CNG,
         diesel,
-        electrique
+        electrique,
+        inconnu
     }
 
     public enum ChoixTransmission {
         manuel,
-        automatique
+        automatique,
+        inconnu
     }
 }

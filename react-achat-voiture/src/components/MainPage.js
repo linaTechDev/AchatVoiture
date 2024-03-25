@@ -2,6 +2,7 @@ import React from "react";
 import "./MainPage.css"
 import {Link} from "react-router-dom";
 import {cars} from "../data/cars";
+import logo from "../images/Heading.png";
 
 const MainPage = () => {
     const carsVedettes = cars.slice(0, 12);
@@ -9,8 +10,8 @@ const MainPage = () => {
     return (
         <div className="home-page">
             <header className="header">
-                <h1>Site web d'achat de voitures</h1>
-                <nav>
+                <img src={logo} alt="logo"/>
+                <nav className="navbar">
                     <ul>
                         <li><Link to="/">Accueil</Link></li>
                         <li><Link to="/marques">Marques</Link></li>
@@ -20,8 +21,8 @@ const MainPage = () => {
             </header>
 
             <section className="hero-section">
-                <div className="hero-content">
-                    <h2>Bienvenue chez Automobile</h2>
+            <div className="hero-content">
+                    <h2>Découvrez le monde sur roues avec notre service de location de voitures</h2>
                     <p>Découvrez l'excellence automobile</p>
                     <Link to="/recherche" className="cta-button">Trouvez votre voiture</Link>
                 </div>

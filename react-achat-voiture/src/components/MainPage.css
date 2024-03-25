@@ -9,8 +9,8 @@ body {
 }
 
 .home-page {
-    max-width: 1200px;
     margin: 0 auto;
+    max-height: 1200px;
     padding: 20px;
 }
 
@@ -18,7 +18,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #333;
+    background-color: #0f0f0f;
     color: white;
     padding: 10px 20px;
 }
@@ -36,16 +36,23 @@ nav li {
     margin-right: 20px;
 }
 
+.navbar ul li a:hover {
+    background-color: #fdfdfd;
+    color: black;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 5px;
+}
+
 nav a {
     text-decoration: none;
     color: white;
 }
 
 .hero-section {
-    background-image: url('https://media.gqmagazine.fr/photos/653a6785b405923c6a3fe4ef/master/pass/SSC%20Tuatara.jpg');
+    background-image: url('../images/backgrnd.png');
     background-size: cover;
     background-position: center;
-    height: 500px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -59,8 +66,8 @@ nav a {
 
 .cta-button {
     display: inline-block;
-    background-color: #FF4500;
-    color: white;
+    background-color: #ffffff;
+    color: #0f0f0f;
     padding: 10px 20px;
     text-decoration: none;
     font-weight: bold;

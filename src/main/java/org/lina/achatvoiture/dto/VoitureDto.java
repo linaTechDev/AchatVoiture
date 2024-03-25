@@ -12,11 +12,16 @@ public class VoitureDto {
     private long id;
     private String marque;
     private String model;
+    private String detail;
     private int annee;
     private double prix;
     private double kilometrage;
+    private String rouesMotrice;
+    private int nbrCylindre;
+    private String categorieTailleVoiture;
     private String carburant;
     private String transmission;
+    private String nbrVitesseTransmission;
     private String imageVoiture;
 
     public Voiture toVoiture() {
@@ -24,11 +29,16 @@ public class VoitureDto {
                 id,
                 marque,
                 model,
+                detail,
                 annee,
                 prix,
                 kilometrage,
+                rouesMotrice,
+                nbrCylindre,
+                categorieTailleVoiture,
                 Voiture.ChoixCarburant.valueOf(carburant),
                 Voiture.ChoixTransmission.valueOf(transmission),
+                nbrVitesseTransmission,
                 imageVoiture
         );
     }

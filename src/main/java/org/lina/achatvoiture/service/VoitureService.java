@@ -38,11 +38,16 @@ public class VoitureService {
                 voiture.getId(),
                 voiture.getMarque(),
                 voiture.getModel(),
+                voiture.getDetail(),
                 voiture.getAnnee(),
                 voiture.getPrix(),
                 voiture.getKilometrage(),
+                voiture.getRouesMotrice(),
+                voiture.getNbrCylindre(),
+                voiture.getCategorieTailleVoiture(),
                 voiture.getCarburant(),
                 voiture.getTransmission(),
+                voiture.getNbrVitesseTransmission(),
                 voiture.getImageVoiture()
         );
         return voiture.toVoitureDto();
