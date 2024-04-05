@@ -1,14 +1,16 @@
 import React, {useEffect, useState} from "react";
 import "./MainPage.css"
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import logo from "../images/Heading.png";
 import Dropdown from 'react-bootstrap/Dropdown';
+import DetailVoiture from "./detail/DetailVoiture";
 
 const MainPage = () => {
     const [voitures, setVoitures] = useState([]);
     const [marques, setMarques] = useState([]);
     const [checkedState, setCheckedState] = useState({});
     const [selectAll, setSelectAll] = useState(false);
+    const navigate = useNavigate()
 
     useEffect(() => {
         fetchVoitureList()
@@ -167,15 +169,20 @@ const MainPage = () => {
                 <h2>Liste des voitures</h2>
                 <div className="featured-cars">
                     {filterVoituresByMarque().map((car, index) => (
-                        <div key={index} className="featured-car">
-                            <img src={car.imageVoiture} alt={`${car.marque} ${car.model}`}/>
+                        <div key={car.id} className="featured-car" onClick={() => {
+                            navigate(`/voiture/${car.id}`)
+                        }}>
+                            <img src={car.imageVoiture} alt="L'image de la voiture n'est pas disponible"/>
+                            <h2>{car.marque}</h2>
+                            <p>{car.model}</p>
+                            <p>{car.annee}</p>
                         </div>
                     ))}
                 </div>
             </section>
 
             <section className="about-section">
-                <h2>À Propos</h2>
+            <h2>À Propos</h2>
                 <p>Explorez une collection exceptionnelle de voitures de qualité, alliant performance, style et
                     innovation. Chez Automobile, nous nous engageons à offrir une expérience d'achat de voiture
                     exceptionnelle.</p>
