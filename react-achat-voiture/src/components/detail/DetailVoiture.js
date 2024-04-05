@@ -53,7 +53,7 @@ const DetailVoiture = () => {
                 <nav className="navbar">
                     <ul>
                         <li><Link to="/">Accueil</Link></li>
-                        <li><Link to="/pannier">Pannier</Link></li>
+                        <li><Link to="/favoris">Favoris</Link></li>
                     </ul>
                 </nav>
             </header>

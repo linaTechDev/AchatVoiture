@@ -3,7 +3,7 @@ import "./MainPage.css"
 import {Link, useNavigate} from "react-router-dom";
 import logo from "../images/Heading.png";
 import Dropdown from 'react-bootstrap/Dropdown';
-import DetailVoiture from "./detail/DetailVoiture";
+import { FiPlus } from 'react-icons/fi';
 
 const MainPage = () => {
     const [voitures, setVoitures] = useState([]);
@@ -124,7 +124,7 @@ const MainPage = () => {
                 <nav className="navbar">
                     <ul>
                         <li><Link to="/">Accueil</Link></li>
-                        <li><Link to="/pannier">Pannier</Link></li>
+                        <li><Link to="/favoris">Favoris</Link></li>
                     </ul>
                 </nav>
             </header>
@@ -168,21 +168,31 @@ const MainPage = () => {
                 </Dropdown>
                 <h2>Liste des voitures</h2>
                 <div className="featured-cars">
-                    {filterVoituresByMarque().map((car, index) => (
-                        <div key={car.id} className="featured-car" onClick={() => {
-                            navigate(`/voiture/${car.id}`)
-                        }}>
-                            <img src={car.imageVoiture} alt="L'image de la voiture n'est pas disponible"/>
-                            <h2>{car.marque}</h2>
-                            <p>{car.model}</p>
-                            <p>{car.annee}</p>
+                    {filterVoituresByMarque().map((car) => (
+                        <div key={car.id} className="featured-car">
+                            <div className="plus-icon-container">
+                                <button className="plus-button" onClick={(e) => {
+                                    e.stopPropagation();
+                                    navigate("/favoris");
+                                }}>
+                                    <FiPlus/>
+                                </button>
+                            </div>
+                            <div onClick={() => {
+                                navigate(`/voiture/${car.id}`);
+                            }}>
+                                <img src={car.imageVoiture} alt="L'image de la voiture n'est pas disponible"/>
+                                <h2>{car.marque}</h2>
+                                <p>{car.model}</p>
+                                <p>{car.annee}</p>
+                            </div>
                         </div>
                     ))}
                 </div>
             </section>
 
             <section className="about-section">
-            <h2>À Propos</h2>
+                <h2>À Propos</h2>
                 <p>Explorez une collection exceptionnelle de voitures de qualité, alliant performance, style et
                     innovation. Chez Automobile, nous nous engageons à offrir une expérience d'achat de voiture
                     exceptionnelle.</p>

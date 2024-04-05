@@ -121,6 +121,25 @@ nav a {
     gap: 20px;
 }
 
+.plus-icon-container {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.plus-button {
+    background-color: white;
+    color: black;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.plus-button:hover {
+    background-color: black;
+    color: white;
+}
+
 .featured-car {
     border: 1px solid #ddd;
     padding: 10px;

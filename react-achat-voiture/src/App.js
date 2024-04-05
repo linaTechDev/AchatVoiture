@@ -5,6 +5,7 @@ import MainPage from "./components/MainPage";
 import 'bootstrap/dist/css/bootstrap.css';
 import PageNotFound from "./components/pageNotFound/PageNotFound";
 import DetailVoiture from "./components/detail/DetailVoiture";
+import FavorisVoitures from "./components/favoris/FavorisVoitures";
 
 function App() {
     return (
@@ -13,6 +14,7 @@ function App() {
                 <Route path="*" element={<PageNotFound/>}/>
                 <Route path="/" element={<MainPage/>}/>
                 <Route path="/voiture/:id" element={<DetailVoiture/>}/>
+                <Route path="/favoris" element={<FavorisVoitures/>}/>
         </Routes>
       </div>
   );
