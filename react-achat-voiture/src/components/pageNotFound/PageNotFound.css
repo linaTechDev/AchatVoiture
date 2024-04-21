@@ -1,0 +1,34 @@
+.not-found-container {
+    text-align: center;
+}
+
+.not-found-container img {
+    max-width: 100%;
+    height: 500px;
+    margin-bottom: 20px;
+}
+
+.not-found-container h1 {
+    font-size: 2em;
+    color: #d9534f;
+}
+
+.not-found-container p {
+    font-size: 1.2em;
+    margin-top: 10px;
+}
+
+.not-found-container button {
+    background-color: #d9534f;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+.not-found-container button:hover {
+    background-color: rgba(217, 83, 79, 0.77);
+}
