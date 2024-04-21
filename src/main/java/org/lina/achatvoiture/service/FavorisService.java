@@ -26,6 +26,12 @@ public class FavorisService {
     }
 
     @Transactional
+    public FavorisDto getFavoris(long id) {
+        return favorisRepository.findFavorisById(id)
+                .orElseThrow(() -> new RuntimeException("Voiture favoris non trouvée pour l'ID : " + id)).toFavorisDto();
+    }
+
+    @Transactional
     public List<FavorisDto> getAllFavoris() {
         List<Favoris> favorisList = favorisRepository.findAll();
         List<FavorisDto> favorisDtoList = new ArrayList<>();
