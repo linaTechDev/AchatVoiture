@@ -9,8 +9,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface FavorisRepository extends JpaRepository<Favoris, Long> {
-    @Modifying
-    @Transactional
-    @Query("DELETE FROM Favoris WHERE id = ?1")
-    void deleteFavorisById(long id);
 }
