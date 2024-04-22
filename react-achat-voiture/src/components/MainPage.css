@@ -171,6 +171,25 @@ body {
     margin-top: 40px;
 }
 
+.featured-section {
+    padding: 20px;
+}
+
+.featured-section h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.featured-section img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.featured-section p {
+    margin-bottom: 5px;
+}
+
 .footer {
     margin-top: 40px;
     text-align: center;

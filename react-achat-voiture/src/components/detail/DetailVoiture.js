@@ -58,12 +58,12 @@ const DetailVoiture = () => {
                 </nav>
             </header>
 
-            <section className="featured-section">
-                <div className="car-details">
-                    <div className="car-image">
+            <section className="featured-section-detail">
+                <div className="car-detail">
+                    <div className="car-image-detail">
                         <img src={voiture.imageVoiture} alt="Car"/>
                     </div>
-                    <div className="car-info">
+                    <div className="car-info-detail">
                         <h2>{voiture.marque}, {voiture.model}</h2>
                         <p><strong>Année:</strong> {voiture.annee}</p>
                         <p><strong>Prix:</strong> {voiture.prix}</p>
