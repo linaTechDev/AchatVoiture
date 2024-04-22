@@ -18,35 +18,29 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #0f0f0f;
-    color: white;
+    background-color: #fff;
+    color: #333;
     padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.header h1 {
-    font-size: 1.5rem;
-}
-
-nav ul {
+.navbar ul {
     list-style: none;
     display: flex;
 }
 
-nav li {
+.navbar ul li {
     margin-right: 20px;
 }
 
-.navbar ul li a:hover {
-    background-color: #fdfdfd;
-    color: black;
-    font-weight: bold;
-    border-radius: 5px;
-    padding: 5px;
+.navbar ul li a {
+    text-decoration: none;
+    color: #fdfdfd;
+    transition: color 0.3s ease;
 }
 
-nav a {
-    text-decoration: none;
-    color: white;
+.navbar ul li a:hover {
+    color: #333333;
 }
 
 .hero-section {
@@ -67,79 +61,95 @@ nav a {
 
 .cta-button {
     display: inline-block;
-    background-color: white;
-    color: #0f0f0f;
+    background-color: #333;
+    color: white;
     padding: 10px 20px;
     text-decoration: none;
     font-weight: bold;
     border-radius: 5px;
-    border-color: white;
+    border: none;
     margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: #555;
 }
 
 .featured-section {
-    margin-top: 40px;
+    margin-top: 30px;
 }
 
-.dropdown-container {
-    position: relative;
-    display: inline-block;
+.dropdown-toggle {
+    background-color: #333 !important;
+    border: none !important;
 }
 
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-    z-index: 1;
-    max-height: 200px;
+.dropdown-toggle:focus {
+    background-color: #555 !important;
+}
+
+.dropdown-toggle:hover {
+    background-color: #555 !important;
+}
+
+.dropdown-menu {
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-height: 300px;
     overflow-y: auto;
-}
-
-.dropdown-content.show {
-    display: block;
 }
 
 .dropdown-content div {
     padding: 8px 12px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .dropdown-content div:hover {
-    background-color: #ddd;
+    background-color: #f2f2f2;
 }
 
 .dropdown-content label {
     margin-left: 5px;
 }
 
-
 .featured-cars {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: 20px;
 }
 
-.plus-icon-container {
+.featured-car {
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    max-width: 200px;
     position: relative;
 }
 
-.plus-button {
+.featured-car:hover {
+    transform: translateY(-5px);
+}
+
+.plus-icon-container {
     position: absolute;
-    top: 200px;
+    bottom: 10px;
     right: 10px;
-    width: 30px;
-    height: 30px;
-    background-color: white;
-    color: black;
+}
+
+.plus-button {
     border-color: black;
     border-radius: 5px;
+    background-color: white;
+    color: black;
+    height: 30px;
+    width: 30px;
     cursor: pointer;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    transition: color 0.3s ease;
 }
 
 .plus-button:hover {
@@ -147,23 +157,10 @@ nav a {
     color: white;
 }
 
-.featured-car {
-    border: 1px solid #ddd;
-    padding: 10px;
-    width: 250px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease-in-out;
-
-    &:hover {
-        transform: scale(1.05);
-    }
-}
-
-.featured-car img {
-    max-width: 100%;
+.car-image {
+    width: 100%;
     height: auto;
     border-bottom: 1px solid #ccc;
-    border-radius: 5px;
 }
 
 .car-details {
