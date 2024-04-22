@@ -4,6 +4,8 @@ import {Link, useNavigate} from "react-router-dom";
 import logo from "../images/Heading.png";
 import Dropdown from 'react-bootstrap/Dropdown';
 import { FiPlus } from 'react-icons/fi';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
 
 const MainPage = () => {
     const [favoris, setFavoris] = useState({});
@@ -81,6 +83,9 @@ const MainPage = () => {
                         console.log(e)
                     }
                     setFavoris(data);
+
+                    NotificationManager.success('Favoris', 'La voiture a bien été ajoutée aux favoris', 3000);
+
                     console.log(data);
                 }
             )
@@ -214,7 +219,6 @@ const MainPage = () => {
                                 <button className="plus-button" onClick={(e) => {
                                     e.stopPropagation();
                                     addFavorisVoiture(car);
-                                    //navigate("/favoris");
                                 }}>
                                     <FiPlus/>
                                 </button>
@@ -242,6 +246,8 @@ const MainPage = () => {
             <footer className="footer">
                 <p>&copy; {new Date().getFullYear()} Automobile. Tous droits réservés.</p>
             </footer>
+
+            <NotificationContainer />
         </div>
     )
 }
