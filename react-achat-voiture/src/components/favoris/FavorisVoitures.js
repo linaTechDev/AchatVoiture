@@ -1,33 +1,56 @@
 import logo from "../../images/Heading.png";
 import {Link} from "react-router-dom";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import "./FavorisVoitures.css"
 
 const FavorisVoitures = () => {
-    const [voituresTemp, setVoituresTemp] = useState([
-        {
-            id: 1,
-            marque: "Toyota",
-            model: "Corolla",
-            prix: 25000,
-        },
-        {
-            id: 2,
-            marque: "Honda",
-            model: "Civic",
-            prix: 22000,
-        },
-        {
-            id: 3,
-            marque: "Ford",
-            model: "Mustang",
-            prix: 35000,
-        }
-    ])
+    const [favoris, setFavoris] = useState([])
 
-    const removeVoiture = (id) => {
-        setVoituresTemp((prevVoitures) => prevVoitures.filter((v) => v.id !== id));
-    };
+    useEffect(() => {
+        fetchFavorisList()
+    }, []);
+
+    async function fetchFavorisList() {
+        try {
+            fetch(
+                "http://localhost:8081/api/favoris/",
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-type': 'application/json'
+                    }
+                }
+            ).catch(error => {
+                console.log(error)
+            }).then(
+                async (res) => {
+                    const data = await res.json()
+                    try {
+                        console.log(res.status)
+                        if (res.status === 400) {
+                            console.log(res.status)
+                        }
+                    } catch (e) {
+                        console.log(e)
+                    }
+                    setFavoris(data);
+                    console.log(data);
+                }
+            )
+        } catch (error) {
+            console.log("Une erreur est survenue : ", error)
+            if (favoris !== undefined) {
+                setFavoris(favoris);
+            }
+        }
+    }
+
+    const removeVoiture = async (id) => {
+        await fetch(`http://localhost:8081/api/favoris/${id}`, {
+            method: 'DELETE'
+        })
+        setFavoris(favoris.filter((favoriVoiture) => favoriVoiture.id !== id))
+    }
 
     return (
         <div className="home-page">
@@ -44,16 +67,16 @@ const FavorisVoitures = () => {
             <section className="featured-section">
                 <h1>Liste des voitures favoris</h1>
                 <div className="voitures-list">
-                    {voituresTemp.map((voiture) => (
-                        <div key={voiture.id} className="voiture-item">
+                    {favoris.map((favoriVoiture) => (
+                        <div key={favoriVoiture.id} className="voiture-item">
                             <img
-                                src="https://i.etsystatic.com/36262552/r/il/5e72a0/4177036590/il_fullxfull.4177036590_acsv.jpg"
+                                src={favoriVoiture.voitureDto.imageVoiture}
                                 alt="L'image de la voiture n'est pas disponible"/>
                             <div>
-                                <h2>{voiture.marque} - {voiture.model}</h2>
-                                <p>Prix: ${voiture.prix}</p>
+                                <h2>{favoriVoiture.voitureDto.marque} - {favoriVoiture.voitureDto.model}</h2>
+                                <p>Prix: ${favoriVoiture.voitureDto.prix}</p>
                             </div>
-                            <button onClick={() => removeVoiture(voiture.id)}>Supprimer</button>
+                            <button onClick={() => removeVoiture(favoriVoiture.id)}>Supprimer</button>
                         </div>
                     ))}
                 </div>

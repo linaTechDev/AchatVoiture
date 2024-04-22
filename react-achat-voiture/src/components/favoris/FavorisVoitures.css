@@ -1,47 +1,73 @@
-.voitures-list {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+.header {
+    background-color: #0f0f0f;
     padding: 20px;
-}
-
-.voiture-item {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    background-color: #f0f0f0;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    position: relative;
 }
 
-.voiture-item img {
-    max-width: 120px;
-    height: auto;
-    margin-right: 20px;
-    border-radius: 5px;
-}
-
-.voiture-item h2,
-.voiture-item p {
+.navbar ul {
+    list-style-type: none;
+    padding: 0;
     margin: 0;
 }
 
+.navbar li {
+    display: inline;
+    margin-right: 20px;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: #fdfdfd;
+    font-weight: bold;
+}
+
+.featured-section {
+    padding: 20px;
+}
+
+.featured-section h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.voitures-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.voiture-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.voiture-item img {
+    width: 100%;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.voiture-item h2 {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
 .voiture-item p {
-    margin-left: auto;
+    margin-bottom: 10px;
 }
 
 .voiture-item button {
-    background-color: #ff6347;
-    color: white;
+    background-color: #dc3545;
+    color: #fff;
     border: none;
-    padding: 8px 16px;
-    border-radius: 5px;
+    padding: 5px 10px;
+    border-radius: 3px;
     cursor: pointer;
-    position: absolute;
-    right: 10px;
 }
 
 .voiture-item button:hover {
-    background-color: #cc4d39;
+    background-color: #c82333;
 }
