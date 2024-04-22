@@ -6,6 +6,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import { FiPlus } from 'react-icons/fi';
 
 const MainPage = () => {
+    const [favoris, setFavoris] = useState({});
     const [voitures, setVoitures] = useState([]);
     const [marques, setMarques] = useState([]);
     const [checkedState, setCheckedState] = useState({});
@@ -48,6 +49,45 @@ const MainPage = () => {
             console.log("Une erreur est survenue : ", error)
             if (voitures !== undefined) {
                 setVoitures(voitures);
+            }
+        }
+    }
+
+    async function addFavorisVoiture(voitureDto) {
+        try {
+            const favoris = ({
+                voitureDto
+            })
+            fetch(
+                "http://localhost:8081/api/favoris/add",
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-type': 'application/json'
+                    },
+                    body: JSON.stringify(favoris)
+                }
+            ).catch((error) => {
+                console.log(error)
+            }).then(
+                async (res) => {
+                    const data = await res.json()
+                    try {
+                        console.log(res.status)
+                        if (res.status === 400) {
+                            console.log(res.status)
+                        }
+                    } catch (e) {
+                        console.log(e)
+                    }
+                    setFavoris(data);
+                    console.log(data);
+                }
+            )
+        } catch (error) {
+            console.log("Une erreur est survenue : ", error)
+            if (favoris !== undefined) {
+                setFavoris(favoris);
             }
         }
     }
@@ -173,7 +213,8 @@ const MainPage = () => {
                             <div className="plus-icon-container">
                                 <button className="plus-button" onClick={(e) => {
                                     e.stopPropagation();
-                                    navigate("/favoris");
+                                    addFavorisVoiture(car);
+                                    //navigate("/favoris");
                                 }}>
                                     <FiPlus/>
                                 </button>
