@@ -22,6 +22,16 @@ public class FavorisController {
         return new ResponseEntity<>(favorisDtos, HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<FavorisDto> getFavorisById(@PathVariable("id") long id) {
+        try {
+            FavorisDto favorisDto = favorisService.getFavoris(id);
+            return new ResponseEntity<>(favorisDto, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PostMapping("/add")
     public ResponseEntity<FavorisDto> addFavoris(@RequestBody FavorisDto favorisDto) {
         try {

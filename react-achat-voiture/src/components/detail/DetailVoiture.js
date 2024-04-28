@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Link, useParams} from "react-router-dom";
 import logo from "../../images/Heading.png";
 import "./DetailVoiture.css"
+import PanierFormCar from "../Panier/PanierFormCar";
 
 const DetailVoiture = () => {
     const {id} = useParams();
@@ -61,7 +62,7 @@ const DetailVoiture = () => {
             <section className="featured-section-detail">
                 <div className="car-detail">
                     <div className="car-image-detail">
-                        <img src={voiture.imageVoiture} alt="Car"/>
+                        <img src={voiture.imageVoiture} alt="L'image de la voiture n'est pas disponible"/>
                     </div>
                     <div className="car-info-detail">
                         <h2>{voiture.marque}, {voiture.model}</h2>
@@ -77,6 +78,10 @@ const DetailVoiture = () => {
                         <p><strong>Nombre de vitesses:</strong> {voiture.nbrVitesseTransmission}</p>
                     </div>
                 </div>
+            </section>
+
+            <section>
+                <PanierFormCar/>
             </section>
         </div>
     )

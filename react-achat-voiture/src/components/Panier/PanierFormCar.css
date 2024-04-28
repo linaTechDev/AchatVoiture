@@ -1,0 +1,45 @@
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 15px;
+    font-weight: bold;
+    color: black;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"] {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.buttonPanier {
+    padding: 12px 24px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.buttonPanier:hover {
+    background-color: #333;
+}
+
+.close-button-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
