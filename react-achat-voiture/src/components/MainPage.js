@@ -3,12 +3,14 @@ import "./MainPage.css"
 import {Link, useNavigate} from "react-router-dom";
 import logo from "../images/Heading.png";
 import Dropdown from 'react-bootstrap/Dropdown';
-import { FiPlus } from 'react-icons/fi';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
+import {FaHeart} from "react-icons/fa";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart } from '@fortawesome/free-regular-svg-icons';
 
 const MainPage = () => {
-    const [favoris, setFavoris] = useState({});
+    const [voiture, setVoiture] = useState({})
     const [voitures, setVoitures] = useState([]);
     const [marques, setMarques] = useState([]);
     const [checkedState, setCheckedState] = useState({});
@@ -55,6 +57,42 @@ const MainPage = () => {
         }
     }
 
+    async function updateIsFavori(voitureDto) {
+        try {
+            fetch(
+                "http://localhost:8081/api/voitures/update",
+                {
+                    method: 'PUT',
+                    headers: {
+                        'Content-type': 'application/json'
+                    },
+                    body: JSON.stringify(voitureDto)
+                }
+            ).catch((error) => {
+                console.log(error)
+            }).then(
+                async (res) => {
+                    const data = await res.json()
+                    try {
+                        console.log(res.status)
+                        if (res.status === 400) {
+                            console.log(res.status)
+                        }
+                    } catch (e) {
+                        console.log(e)
+                    }
+                    setVoiture(data);
+                    console.log(data);
+                }
+            )
+        } catch (error) {
+            console.log("Une erreur est survenue : ", error)
+            if (voiture !== undefined) {
+                setVoiture(voiture);
+            }
+        }
+    }
+
     async function addFavorisVoiture(voitureDto) {
         try {
             const favoris = ({
@@ -82,7 +120,17 @@ const MainPage = () => {
                     } catch (e) {
                         console.log(e)
                     }
-                    setFavoris(data);
+
+                    await updateIsFavori(voitureDto);
+
+                    voitureDto.favori = true;
+
+                    setVoitures(prevVoitures => prevVoitures.map(car => {
+                        if (car.id === voitureDto.id) {
+                            return {...car, favori: true};
+                        }
+                        return car;
+                    }));
 
                     NotificationManager.success('Favoris', 'La voiture a bien été ajoutée aux favoris', 3000);
 
@@ -91,10 +139,26 @@ const MainPage = () => {
             )
         } catch (error) {
             console.log("Une erreur est survenue : ", error)
-            if (favoris !== undefined) {
-                setFavoris(favoris);
-            }
         }
+    }
+
+    const removeVoitureFavori = async (voitureDto) => {
+        await fetch(`http://localhost:8081/api/favoris/voiture/${voitureDto.id}`, {
+            method: 'DELETE'
+        })
+
+        await updateIsFavori(voitureDto);
+
+        voitureDto.favori = false;
+
+        setVoitures(prevVoitures => prevVoitures.map(car => {
+            if (car.id === voitureDto.id) {
+                return {...car, favori: false};
+            }
+            return car;
+        }));
+
+        NotificationManager.info('Favoris', 'La voiture a bien été retirée des favoris', 3000);
     }
 
     async function fetchMarqueList() {
@@ -216,11 +280,17 @@ const MainPage = () => {
                     {filterVoituresByMarque().map((car) => (
                         <div key={car.id} className="featured-car">
                             <div className="plus-icon-container">
-                                <button className="plus-button" onClick={(e) => {
-                                    e.stopPropagation();
-                                    addFavorisVoiture(car);
-                                }}>
-                                    <FiPlus/>
+                                <button
+                                    className="plus-button"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        car.favori ? removeVoitureFavori(car) : addFavorisVoiture(car);
+                                    }}
+                                >
+                                    {car.favori ?
+                                    <FaHeart/> :
+                                    <FontAwesomeIcon icon={faHeart}/>
+                                    }
                                 </button>
                             </div>
                             <div onClick={() => {
@@ -229,7 +299,7 @@ const MainPage = () => {
                                 <img src={car.imageVoiture} alt="L'image de la voiture n'est pas disponible"/>
                                 <h2>{car.marque}</h2>
                                 <p>{car.model}</p>
-                                <p>{car.annee}</p>
+                                <p>{car.annee !== 0 ? car.annee : ''}</p>
                             </div>
                         </div>
                     ))}

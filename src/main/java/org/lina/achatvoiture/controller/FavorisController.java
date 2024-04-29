@@ -50,6 +50,12 @@ public class FavorisController {
         favorisService.deleteFavoris(favorisDto);
     }
 
+    @DeleteMapping("/voiture/{id}")
+    public void deleteVoitureFavoris(@PathVariable long id) {
+        FavorisDto favorisDto = favorisService.getFavorisVoiture(id);
+        favorisService.deleteFavoris(favorisDto);
+    }
+
     @DeleteMapping
     public void deleteAllFavoris() {
         favorisService.deleteAllFavoris();

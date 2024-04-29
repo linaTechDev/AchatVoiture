@@ -35,6 +35,8 @@ public class Voiture {
     @Lob
     private String imageVoiture;
 
+    private boolean isFavori;
+
     public VoitureDto toVoitureDto() {
         return new VoitureDto(
                 id,
@@ -50,7 +52,8 @@ public class Voiture {
                 carburant.toString(),
                 transmission.toString(),
                 nbrVitesseTransmission,
-                imageVoiture
+                imageVoiture,
+                isFavori
         );
     }
 

@@ -77,7 +77,8 @@ public class VoituresDB implements CommandLineRunner {
                     "",
                     "",
                     "",
-                    imageVoiture
+                    imageVoiture,
+                    false
             ));
         }
 

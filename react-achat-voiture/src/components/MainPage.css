@@ -142,19 +142,13 @@ body {
 }
 
 .plus-button {
-    border-color: black;
+    border-color: transparent;
     border-radius: 5px;
-    background-color: white;
-    color: black;
+    background-color: transparent;
     height: 30px;
     width: 30px;
     cursor: pointer;
     transition: color 0.3s ease;
-}
-
-.plus-button:hover {
-    background-color: black;
-    color: white;
 }
 
 .car-image {

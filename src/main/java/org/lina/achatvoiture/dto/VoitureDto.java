@@ -23,6 +23,7 @@ public class VoitureDto {
     private String transmission;
     private String nbrVitesseTransmission;
     private String imageVoiture;
+    private boolean isFavori;
 
     public Voiture toVoiture() {
         return new Voiture(
@@ -39,7 +40,8 @@ public class VoitureDto {
                 Voiture.ChoixCarburant.valueOf(carburant),
                 Voiture.ChoixTransmission.valueOf(transmission),
                 nbrVitesseTransmission,
-                imageVoiture
+                imageVoiture,
+                isFavori
         );
     }
 }

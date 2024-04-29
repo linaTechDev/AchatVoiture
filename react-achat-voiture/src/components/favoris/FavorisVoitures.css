@@ -39,9 +39,15 @@
 }
 
 .voiture-item {
-    border: 1px solid #ccc;
-    padding: 10px;
     border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+    width: 300px;
+    transition: transform 0.3s ease;
+}
+
+.voiture-item:hover {
+    transform: translateY(-5px);
 }
 
 .voiture-item img {
@@ -90,4 +96,33 @@
     margin-top: 5px;
     margin-bottom: 0;
     color: #666;
+}
+
+.empty-favorites {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-top: 50px;
+    color: #000;
+}
+
+.empty-favorites p {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.empty-favorites a {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #000;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.empty-favorites a:hover {
+    background-color: #444;
 }

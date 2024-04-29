@@ -18,34 +18,9 @@ public interface VoitureRepository extends JpaRepository<Voiture, Long> {
 
     @Modifying
     @Transactional
-    @Query("UPDATE Voiture " +
-            "SET marque = ?2, " +
-            "model = ?3, " +
-            "detail = ?4," +
-            "annee = ?5, " +
-            "prix = ?6, " +
-            "kilometrage = ?7, " +
-            "rouesMotrice = ?8," +
-            "nbrCylindre = ?9," +
-            "categorieTailleVoiture = ?10," +
-            "carburant = ?11, " +
-            "transmission = ?12, " +
-            "nbrVitesseTransmission = ?13," +
-            "imageVoiture = ?14 WHERE id = ?1")
+    @Query("UPDATE Voiture SET isFavori = ?2 WHERE id = ?1")
     void updateVoitureById(
             long id,
-            String marque,
-            String model,
-            String detail,
-            int annee,
-            double prix,
-            double kilometrage,
-            String rouesMotrice,
-            int nbrCylindre,
-            String categorieTailleVoiture,
-            Voiture.ChoixCarburant carburant,
-            Voiture.ChoixTransmission transmission,
-            String nbrVitesseTransmission,
-            String imageVoiture
+            boolean isFavori
     );
 }
