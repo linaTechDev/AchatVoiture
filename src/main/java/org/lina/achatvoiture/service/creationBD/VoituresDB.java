@@ -13,9 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
 @Service
 public class VoituresDB implements CommandLineRunner {
@@ -23,6 +21,8 @@ public class VoituresDB implements CommandLineRunner {
     private VoitureService voitureService;
     @Autowired
     private MarqueService marqueService;
+
+    private final Random r = new Random();
 
     @Override
     public void run(String... args) throws IOException, ParseException {
@@ -32,15 +32,59 @@ public class VoituresDB implements CommandLineRunner {
         System.out.println("Création fin");
     }
 
+    public void AddPonderation(Dictionary<String, Double> dict, String marque) {
+        double ponderationMin = 5000;// 50%
+        double ponderationMax = 10000;// 100%
+
+        double randomPonderation = ponderationMin + ((ponderationMax - ponderationMin) * r.nextDouble());
+
+        dict.put(marque, randomPonderation);
+    }
+
     public void readJSON() throws IOException, ParseException {
         int id = 0;
         JSONParser parser = new JSONParser();
 
         JSONArray carsImage = (JSONArray) parser.parse(new FileReader("src/main/java/org/lina/achatvoiture/service/creationBD/carsImage.json"));
         ArrayList<VoitureDto> voitureDtosCarsImage = new ArrayList<>();
-        Random r = new Random();
+
+
         double rangeMin = 100000;
         double rangeMax = 200000;
+
+        Dictionary<String, Double> dict= new Hashtable<>();
+
+        AddPonderation(dict, "Audi");
+        AddPonderation(dict, "Bentley");
+        AddPonderation(dict, "BMW");
+        AddPonderation(dict, "Buick");
+        AddPonderation(dict, "Cadillac");
+        AddPonderation(dict, "Chevrolet");
+        AddPonderation(dict, "Chrysler");
+        AddPonderation(dict, "Daewoo");
+        AddPonderation(dict, "Dodge");
+        AddPonderation(dict, "Eagle");
+        AddPonderation(dict, "Ford");
+        AddPonderation(dict, "Geo");
+        AddPonderation(dict, "Hyundai");
+        AddPonderation(dict, "Infiniti");
+        AddPonderation(dict, "Jaguar");
+        AddPonderation(dict, "Kia");
+        AddPonderation(dict, "Lincoln");
+        AddPonderation(dict, "Mazda");
+        AddPonderation(dict, "Mercury");
+        AddPonderation(dict, "Mitsubishi");
+        AddPonderation(dict, "Nissan");
+        AddPonderation(dict, "Oldsmobile");
+        AddPonderation(dict, "Plymouth");
+        AddPonderation(dict, "Pontiac");
+        AddPonderation(dict, "Porsche");
+        AddPonderation(dict, "Saab");
+        AddPonderation(dict, "Saturn");
+        AddPonderation(dict, "Scion");
+        AddPonderation(dict, "Toyota");
+        AddPonderation(dict, "Volkswagen");
+        AddPonderation(dict, "Volvo");
 
         for (Object o : carsImage) {
             id++;
@@ -61,15 +105,13 @@ public class VoituresDB implements CommandLineRunner {
                 detail = "";
             }
 
-            double randomPrix = rangeMin + (rangeMax - rangeMin) * r.nextDouble();
-
             voitureDtosCarsImage.add(new VoitureDto(
                     id,
                     marque,
                     model,
                     detail,
                     annee,
-                    randomPrix,
+                    0,
                     0,
                     "",
                     0,
@@ -172,6 +214,15 @@ public class VoituresDB implements CommandLineRunner {
                         voitureDto.setCarburant(carburant);
                         voitureDto.setTransmission(transmission);
                         voitureDto.setNbrVitesseTransmission(nbrVitesseTransmission);
+
+                        if (dict.get(marque) == null) {
+                            AddPonderation(dict, marque);
+                        }
+                        Double ponderation = dict.get(marque);
+                        double randomPrix = (rangeMin + ((rangeMax - rangeMin) * r.nextDouble())) * (ponderation / 100.0);
+
+                        voitureDto.setPrix(Math.round(randomPrix));
+
                         voitureService.saveVoiture(voitureDto);
                     }
                     break;
