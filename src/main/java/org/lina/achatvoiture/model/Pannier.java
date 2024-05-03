@@ -16,13 +16,49 @@ public class Pannier {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String dateBirth;
+    private String address;
+    private String city;
+    private String state;
+    private String postalCode;
+
+    private ChoixPayment paymentMethod;
+
+    private String nameCard;
+    private String cardNumber;
+    private String expiryDate;
+    private String cvcCVV;
+
     @OneToOne
     private Voiture voiture;
 
     public PannierDto toPannierDto() {
         return new PannierDto(
                 id,
-                voiture.toVoitureDto() //voiture.getId()
+                firstName,
+                lastName,
+                email,
+                dateBirth,
+                address,
+                city,
+                state,
+                postalCode,
+                paymentMethod.toString(),
+                nameCard,
+                cardNumber,
+                expiryDate,
+                cvcCVV,
+                voiture.toVoitureDto()
         );
+    }
+
+    public enum ChoixPayment {
+        DebitCard,
+        PayPal,
+        VISA,
+        MasterCard
     }
 }

@@ -10,12 +10,41 @@ import org.lina.achatvoiture.model.Pannier;
 @AllArgsConstructor
 public class PannierDto {
     private long id;
-    private VoitureDto voiture; //long idVoiture;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String dateBirth;
+    private String address;
+    private String city;
+    private String state;
+    private String postalCode;
+
+    private String paymentMethod;
+
+    private String nameCard;
+    private String cardNumber;
+    private String expiryDate;
+    private String cvcCVV;
+
+    private VoitureDto voiture;
 
     public Pannier toPannier() {
         return new Pannier(
                 id,
-                voiture.toVoiture() //idVoiture
+                firstName,
+                lastName,
+                email,
+                dateBirth,
+                address,
+                city,
+                state,
+                postalCode,
+                Pannier.ChoixPayment.valueOf(paymentMethod),
+                nameCard,
+                cardNumber,
+                expiryDate,
+                cvcCVV,
+                voiture.toVoiture()
         );
     }
 }
