@@ -1,11 +1,17 @@
 package org.lina.achatvoiture.service.utils;
 
+import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
+
 import java.util.Properties;
 import javax.mail.*;
 import javax.mail.internet.*;
 
+@Service
 public class GmailSenderNotification {
-    public static void main(String[] args) {
+
+    @Transactional
+    public void sendEmail(String emailTo, String body) {
         final String username = "botvoiture@gmail.com";
         final String password = "fpxl irbp uhta ajna";
 
@@ -26,9 +32,9 @@ public class GmailSenderNotification {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(username));
             message.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse("lina.ly.2018@outlook.fr"));
-            message.setSubject("Subject");
-            message.setText("Body");
+                    InternetAddress.parse(emailTo));
+            message.setSubject("LUXEDRIVE : Reçu d'achat de voiture");
+            message.setText(body);
 
             Transport.send(message);
 
