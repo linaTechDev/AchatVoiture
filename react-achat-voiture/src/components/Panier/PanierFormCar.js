@@ -3,7 +3,22 @@ import Modal from 'react-modal';
 import "./PanierFormCar.css"
 import {FaCar, FaShoppingCart, FaTimes} from 'react-icons/fa';
 
-const PanierFormCar = () => {
+const PanierFormCar = ({onAdd}) => {
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [email, setEmail] = useState('');
+    const [dateBirth, setDateBirth] = useState('');
+    const [address, setAddress] = useState('');
+    const [city, setCity] = useState('');
+    const [state, setState] = useState('');
+    const [postalCode, setPostalCode] = useState('');
+
+    const [paymentMethod, setPaymentMethod] = useState('');
+    const [nameCard, setNameCard] = useState('');
+    const [cardNumber, setCardNumber] = useState('');
+    const [expiryDate, setExpiryDate] = useState('');
+    const [cvcCVV, setCvcCVV] = useState('');
+
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
     const openModal = () => {
@@ -16,7 +31,7 @@ const PanierFormCar = () => {
 
     return (
         <div>
-            <button className="buttonPanier" onClick={openModal}>Réserver la voiture</button>
+            <button className="buttonPanier" onClick={openModal}>Acheter la voiture</button>
 
             <Modal isOpen={modalIsOpen} onRequestClose={closeModal}>
                 <div className="close-button-container">
