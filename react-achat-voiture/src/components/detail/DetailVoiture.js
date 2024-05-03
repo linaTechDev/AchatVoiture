@@ -3,6 +3,7 @@ import {Link, useParams} from "react-router-dom";
 import logo from "../../images/Heading.png";
 import "./DetailVoiture.css"
 import PanierFormCar from "../Panier/PanierFormCar";
+import {NotificationManager} from "react-notifications";
 
 const DetailVoiture = () => {
     const {id} = useParams();
@@ -47,6 +48,41 @@ const DetailVoiture = () => {
         }
     }
 
+    async function addPanierVoiture(pannierDto) {
+        try {
+            fetch(
+                "http://localhost:8081/api/pannier/add",
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-type': 'application/json'
+                    },
+                    body: JSON.stringify(pannierDto)
+                }
+            ).catch((error) => {
+                console.log(error)
+            }).then(
+                async (res) => {
+                    const data = await res.json()
+                    try {
+                        console.log(res.status)
+                        if (res.status === 400) {
+                            console.log(res.status)
+                        }
+                    } catch (e) {
+                        console.log(e)
+                    }
+
+                    NotificationManager.success('Panier', 'La voiture a bien été acheté, un reçu de vente a été envoyé', 3000);
+
+                    console.log(data);
+                }
+            )
+        } catch (error) {
+            console.log("Une erreur est survenue : ", error)
+        }
+    }
+
     return (
         <div className="home-page">
             <header className="header">
@@ -81,7 +117,7 @@ const DetailVoiture = () => {
             </section>
 
             <section>
-                <PanierFormCar/>
+                <PanierFormCar onAdd={addPanierVoiture} voiture={voiture}/>
             </section>
         </div>
     )

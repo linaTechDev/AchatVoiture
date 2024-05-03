@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 import "./PanierFormCar.css"
 import {FaCar, FaShoppingCart, FaTimes} from 'react-icons/fa';
 
-const PanierFormCar = ({onAdd}) => {
+const PanierFormCar = ({onAdd, voiture}) => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
@@ -184,6 +184,7 @@ const PanierFormCar = ({onAdd}) => {
                 cardNumber,
                 expiryDate,
                 cvcCVV,
+                voiture
             })
             closeModal()
         }
