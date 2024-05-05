@@ -4,6 +4,8 @@ import logo from "../../images/Heading.png";
 import "./DetailVoiture.css"
 import PanierFormCar from "../Panier/PanierFormCar";
 import {NotificationManager} from "react-notifications";
+import Modal from "react-modal";
+import {FaTimes} from "react-icons/fa";
 
 const DetailVoiture = () => {
     const {id} = useParams();
@@ -83,6 +85,16 @@ const DetailVoiture = () => {
         }
     }
 
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+
+    const openModal = () => {
+        setModalIsOpen(true);
+    };
+
+    const closeModal = () => {
+        setModalIsOpen(false);
+    };
+
     return (
         <div className="home-page">
             <header className="header">
@@ -117,7 +129,16 @@ const DetailVoiture = () => {
             </section>
 
             <section>
-                {<PanierFormCar onAdd={addPanierVoiture} voiture={voiture}/>}
+                <button className="buttonPanier" onClick={openModal}>Acheter la voiture</button>
+
+                <Modal isOpen={modalIsOpen} onRequestClose={closeModal} ariaHideApp={false}>
+                    <div className="close-button-container">
+                        <button className="close-button" onClick={closeModal}>
+                            <FaTimes style={{color: 'black', fontSize: '24px'}}/>
+                        </button>
+                    </div>
+                    {<PanierFormCar onAdd={addPanierVoiture} voiture={voiture} closeModal={closeModal}/>}
+                </Modal>
             </section>
         </div>
     )

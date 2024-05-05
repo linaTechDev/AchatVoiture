@@ -1,9 +1,7 @@
 import {useRef, useState} from 'react';
-import Modal from 'react-modal';
 import "./PanierFormCar.css"
-import {FaCar, FaShoppingCart, FaTimes} from 'react-icons/fa';
 
-const PanierFormCar = ({onAdd, voiture}) => {
+const PanierFormCar = ({onAdd, voiture, closeModal}) => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
@@ -192,16 +190,6 @@ const PanierFormCar = ({onAdd, voiture}) => {
             closeModal()
         }
     }
-
-    const [modalIsOpen, setModalIsOpen] = useState(false);
-
-    const openModal = () => {
-        setModalIsOpen(true);
-    };
-
-    const closeModal = () => {
-        setModalIsOpen(false);
-    };
 
     return (
         <div>
