@@ -117,7 +117,7 @@ const DetailVoiture = () => {
             </section>
 
             <section>
-                <PanierFormCar onAdd={addPanierVoiture} voiture={voiture}/>
+                {<PanierFormCar onAdd={addPanierVoiture} voiture={voiture}/>}
             </section>
         </div>
     )

@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import {useRef, useState} from 'react';
 import Modal from 'react-modal';
 import "./PanierFormCar.css"
 import {FaCar, FaShoppingCart, FaTimes} from 'react-icons/fa';
@@ -169,6 +169,9 @@ const PanierFormCar = ({onAdd, voiture}) => {
             cvcCVVRef.current.innerHTML = ''
         }
 
+        console.log("voiture: "+voiture)
+        console.log(firstName)
+
         if (!annuler) {
             onAdd({
                 firstName,
@@ -202,337 +205,343 @@ const PanierFormCar = ({onAdd, voiture}) => {
 
     return (
         <div>
-            <button className="buttonPanier" onClick={openModal}>Acheter la voiture</button>
+            <form onSubmit={onSubmit}>
+                <div style={{
+                    flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start',
+                    gap: 16, display: 'flex'
+                }}>
+                    <div style={{
+                        flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start',
+                        gap: 16, display: 'flex'
+                    }}>
 
-            <Modal isOpen={modalIsOpen} onRequestClose={closeModal}>
-                <div className="close-button-container">
-                    <button className="close-button" onClick={closeModal}>
-                        <FaTimes style={{color: 'black', fontSize: '24px'}}/>
-                    </button>
-                </div>
-                <div>
-                    <div>
-                        <form onSubmit={onSubmit}>
+                        <div style={{
+                            flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start',
+                            display: 'flex'
+                        }}>
                             <div style={{
-                                flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start',
-                                gap: 16, display: 'flex'
+                                color: '#4A4543', fontSize: 42, fontFamily: 'Roboto', fontWeight: '400',
+                                wordWrap: 'break-word'
+                            }}>Formulaire d'achat de la voiture
+                            </div>
+
+                            <div style={{
+                                color: '#808080', fontSize: 16, fontFamily: 'Roboto', fontWeight: '400',
+                                letterSpacing: 0.16, wordWrap: 'break-word'
+                            }}>Veuillez entrer vos informations.
+                            </div>
+                        </div>
+
+                        <div style={{
+                            flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start',
+                            gap: 10, display: 'flex'
+                        }}>
+
+                            <div style={{
+                                justifyContent: 'flex-start', alignItems: 'flex-start', gap: 8,
+                                display: 'inline-flex'
                             }}>
-                                <div style={{
-                                    flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start',
-                                    gap: 16, display: 'flex'
+
+                                <div className='form-group' style={{
+                                    flexDirection: 'column', justifyContent: 'flex-start',
+                                    alignItems: 'flex-start', gap: 8, display: 'flex', width: 220
                                 }}>
 
-                                    <div style={{
-                                        flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start',
-                                        display: 'flex'
-                                    }}>
-                                        <div style={{
-                                            color: '#4A4543', fontSize: 42, fontFamily: 'Roboto', fontWeight: '400',
-                                            wordWrap: 'break-word'
-                                        }}>Formulaire d'achat de la voiture
-                                        </div>
+                                    <label style={{
+                                        color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
+                                        fontWeight: '500', wordWrap: 'break-word'
+                                    }}>Prénom</label>
 
-                                        <div style={{
-                                            color: '#808080', fontSize: 16, fontFamily: 'Roboto', fontWeight: '400',
-                                            letterSpacing: 0.16, wordWrap: 'break-word'
-                                        }}>Veuillez entrer vos informations.
-                                        </div>
-                                    </div>
-
-                                    <div style={{
-                                        flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start',
-                                        gap: 10, display: 'flex'
-                                    }}>
-
-                                        <div style={{
-                                            justifyContent: 'flex-start', alignItems: 'flex-start', gap: 8,
-                                            display: 'inline-flex'
-                                        }}>
-
-                                            <div className='form-group' style={{
-                                                flexDirection: 'column', justifyContent: 'flex-start',
-                                                alignItems: 'flex-start', gap: 8, display: 'flex', width: 220
-                                            }}>
-
-                                                <label style={{
-                                                    color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
-                                                    fontWeight: '500', wordWrap: 'break-word'
-                                                }}>Prénom</label>
-
-                                                <input ref={firstNameRef} className='form-control m-0 inputStyle'
-                                                       style={{width: 220}}
-                                                       type='text' placeholder='Entrer le prénom'
-                                                       value={firstName}
-                                                       onChange={(e) => setFirstName(e.target.value)}/>
-                                                <p ref={firstNameRef}
-                                                   className="font px-1 textAvertissement text-danger"></p>
-                                            </div>
-
-                                            <div className='form-group' style={{
-                                                flexDirection: 'column', justifyContent: 'flex-start',
-                                                alignItems: 'flex-start', gap: 8, display: 'flex'
-                                            }}>
-
-                                                <label style={{
-                                                    color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
-                                                    fontWeight: '500', wordWrap: 'break-word'
-                                                }}>Nom de famille</label>
-
-                                                <input className='form-control m-0 inputStyle'
-                                                       style={{width: 220}}
-                                                       type='text' placeholder='Entrer le nom de famille'
-                                                       value={lastName}
-                                                       onChange={(e) => setLastName(e.target.value)}/>
-                                                <p ref={lastNameRef}
-                                                   className="font px-1 textAvertissement text-danger"></p>
-                                            </div>
-                                        </div>
-
-                                        <div style={{
-                                            justifyContent: 'flex-start', alignItems: 'flex-start', gap: 8,
-                                            display: 'inline-flex'
-                                        }}>
-
-                                            <div className='form-group' style={{
-                                                flexDirection: 'column', justifyContent: 'flex-start',
-                                                alignItems: 'flex-start', gap: 8, display: 'flex'
-                                            }}>
-
-                                                <label style={{
-                                                    color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
-                                                    fontWeight: '500', wordWrap: 'break-word'
-                                                }}>Email</label>
-
-                                                <input className='form-control m-0 inputStyle'
-                                                       style={{width: 220}}
-                                                       type='text' placeholder='Entrer l’email'
-                                                       value={email}
-                                                       onChange={(e) => setEmail(e.target.value)}/>
-                                                <p ref={emailRef}
-                                                   className="font px-1 textAvertissement text-danger"></p>
-                                            </div>
-
-                                            <div className='form-group' style={{
-                                                flexDirection: 'column', justifyContent: 'flex-start',
-                                                alignItems: 'flex-start', gap: 8, display: 'flex'
-                                            }}>
-
-                                                <label style={{
-                                                    color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
-                                                    fontWeight: '500', wordWrap: 'break-word'
-                                                }}>Date de naissance</label>
-
-                                                <input className='form-control m-0 inputStyle'
-                                                       style={{width: 220}}
-                                                       type='text' placeholder='Entrer la date de naissance'
-                                                       value={dateBirth}
-                                                       onChange={(e) => setDateBirth(e.target.value)}/>
-                                                <p ref={dateBirthRef}
-                                                   className="font px-1 textAvertissement text-danger"></p>
-                                            </div>
-                                        </div>
-
-                                        <div style={{
-                                            justifyContent: 'flex-start', alignItems: 'flex-start', gap: 8,
-                                            display: 'inline-flex'
-                                        }}>
-
-                                            <div className='form-group' style={{
-                                                flexDirection: 'column', justifyContent: 'flex-start',
-                                                alignItems: 'flex-start', gap: 8, display: 'flex'
-                                            }}>
-
-                                                <label style={{
-                                                    color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
-                                                    fontWeight: '500', wordWrap: 'break-word'
-                                                }}>Adresse</label>
-
-                                                <input className='form-control m-0 inputStyle'
-                                                       style={{width: 220}}
-                                                       type='text' placeholder="Entrer l'adresse"
-                                                       value={address}
-                                                       onChange={(e) => setAddress(e.target.value)}/>
-                                                <p ref={addressRef}
-                                                   className="font px-1 textAvertissement text-danger"></p>
-                                            </div>
-
-                                            <div className='form-group' style={{
-                                                flexDirection: 'column', justifyContent: 'flex-start',
-                                                alignItems: 'flex-start', gap: 8, display: 'flex'
-                                            }}>
-
-                                                <label style={{
-                                                    color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
-                                                    fontWeight: '500', wordWrap: 'break-word'
-                                                }}>Ville</label>
-
-                                                <input className='form-control m-0 inputStyle'
-                                                       style={{width: 220}}
-                                                       type='text' placeholder='Entrer la ville'
-                                                       value={city}
-                                                       onChange={(e) => setCity(e.target.value)}/>
-                                                <p ref={cityRef}
-                                                   className="font px-1 textAvertissement text-danger"></p>
-                                            </div>
-                                        </div>
-
-                                        <div style={{
-                                            justifyContent: 'flex-start', alignItems: 'flex-start', gap: 8,
-                                            display: 'inline-flex'
-                                        }}>
-
-                                            <div className='form-group' style={{
-                                                flexDirection: 'column', justifyContent: 'flex-start',
-                                                alignItems: 'flex-start', gap: 8, display: 'flex'
-                                            }}>
-
-                                                <label style={{
-                                                    color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
-                                                    fontWeight: '500', wordWrap: 'break-word'
-                                                }}>Code postal</label>
-
-                                                <input className='form-control m-0 inputStyle'
-                                                       style={{width: 220}}
-                                                       type='text' placeholder="Entrer le code postal"
-                                                       value={postalCode}
-                                                       onChange={(e) => setPostalCode(e.target.value)}/>
-                                                <p ref={postalCodeRef}
-                                                   className="font px-1 textAvertissement text-danger"></p>
-                                            </div>
-
-                                            <div className='form-group' style={{
-                                                flexDirection: 'column', justifyContent: 'flex-start',
-                                                alignItems: 'flex-start', gap: 8, display: 'flex'
-                                            }}>
-
-                                                <label style={{
-                                                    color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
-                                                    fontWeight: '500', wordWrap: 'break-word'
-                                                }}>Méthode de paiement</label>
-
-                                                <input className='form-control m-0 inputStyle'
-                                                       style={{width: 220}}
-                                                       type='text' placeholder='Entrer la méthode de paiement'
-                                                       value={paymentMethod}
-                                                       onChange={(e) => setPaymentMethod(e.target.value)}/>
-                                                <p ref={paymentMethodRef}
-                                                   className="font px-1 textAvertissement text-danger"></p>
-                                            </div>
-                                        </div>
-
-
-                                        <div style={{
-                                            justifyContent: 'flex-start', alignItems: 'flex-start', gap: 8,
-                                            display: 'inline-flex'
-                                        }}>
-
-                                            <div className='form-group' style={{
-                                                flexDirection: 'column', justifyContent: 'flex-start',
-                                                alignItems: 'flex-start', gap: 8, display: 'flex'
-                                            }}>
-
-                                                <label style={{
-                                                    color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
-                                                    fontWeight: '500', wordWrap: 'break-word'
-                                                }}>Nom de la carte</label>
-
-                                                <input className='form-control m-0 inputStyle'
-                                                       style={{width: 220}}
-                                                       type='text' placeholder="Entrer le nom de la carte"
-                                                       value={nameCard}
-                                                       onChange={(e) => setNameCard(e.target.value)}/>
-                                                <p ref={nameCardRef}
-                                                   className="font px-1 textAvertissement text-danger"></p>
-                                            </div>
-
-                                            <div className='form-group' style={{
-                                                flexDirection: 'column', justifyContent: 'flex-start',
-                                                alignItems: 'flex-start', gap: 8, display: 'flex'
-                                            }}>
-
-                                                <label style={{
-                                                    color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
-                                                    fontWeight: '500', wordWrap: 'break-word'
-                                                }}>Numéro de la carte</label>
-
-                                                <input className='form-control m-0 inputStyle'
-                                                       style={{width: 220}}
-                                                       type='text' placeholder='Entrer le numéro de la carte'
-                                                       value={cardNumber}
-                                                       onChange={(e) => setCardNumber(e.target.value)}/>
-                                                <p ref={cardNumberRef}
-                                                   className="font px-1 textAvertissement text-danger"></p>
-                                            </div>
-                                        </div>
-
-
-                                        <div style={{
-                                            justifyContent: 'flex-start', alignItems: 'flex-start', gap: 8,
-                                            display: 'inline-flex'
-                                        }}>
-
-                                            <div className='form-group' style={{
-                                                flexDirection: 'column', justifyContent: 'flex-start',
-                                                alignItems: 'flex-start', gap: 8, display: 'flex'
-                                            }}>
-
-                                                <label style={{
-                                                    color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
-                                                    fontWeight: '500', wordWrap: 'break-word'
-                                                }}>Date d'expiration de la carte</label>
-
-                                                <input className='form-control m-0 inputStyle'
-                                                       style={{width: 220}}
-                                                       type='text' placeholder="Entrer la date d'expiration de la carte"
-                                                       value={expiryDate}
-                                                       onChange={(e) => setExpiryDate(e.target.value)}/>
-                                                <p ref={expiryDateRef}
-                                                   className="font px-1 textAvertissement text-danger"></p>
-                                            </div>
-
-                                            <div className='form-group' style={{
-                                                flexDirection: 'column', justifyContent: 'flex-start',
-                                                alignItems: 'flex-start', gap: 8, display: 'flex'
-                                            }}>
-
-                                                <label style={{
-                                                    color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
-                                                    fontWeight: '500', wordWrap: 'break-word'
-                                                }}>CVC / CVV</label>
-
-                                                <input className='form-control m-0 inputStyle'
-                                                       style={{width: 220}}
-                                                       type='text' placeholder='Entrer le CVC / CVV'
-                                                       value={cvcCVV}
-                                                       onChange={(e) => setCvcCVV(e.target.value)}/>
-                                                <p ref={cvcCVVRef}
-                                                   className="font px-1 textAvertissement text-danger"></p>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <input ref={firstNameRef} className='form-control m-0 inputStyle'
+                                           style={{width: 220}}
+                                           type='text' placeholder='Entrer le prénom'
+                                           value={firstName}
+                                           onChange={(e) => setFirstName(e.target.value)}/>
+                                    <p ref={firstNameRef}
+                                       className="font px-1 textAvertissement text-danger"></p>
                                 </div>
 
-                                <div style={{
-                                    flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start',
-                                    display: 'flex'
+                                <div className='form-group' style={{
+                                    flexDirection: 'column', justifyContent: 'flex-start',
+                                    alignItems: 'flex-start', gap: 8, display: 'flex'
                                 }}>
-                                    <div style={{
-                                        width: 180, height: 45, background: '#000000',
-                                        borderRadius: 8
-                                    }}>
-                                        <input type='submit' value="Envoyer le formulaire" className='btn btn-block'
-                                               style={{
-                                                   color: 'white', fontSize: 16, fontFamily: 'Roboto',
-                                                   textAlign: "center",
-                                                   fontWeight: '500', wordWrap: 'break-word'
-                                               }}/>
-                                    </div>
+
+                                    <label style={{
+                                        color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
+                                        fontWeight: '500', wordWrap: 'break-word'
+                                    }}>Nom de famille</label>
+
+                                    <input className='form-control m-0 inputStyle'
+                                           style={{width: 220}}
+                                           type='text' placeholder='Entrer le nom de famille'
+                                           value={lastName}
+                                           onChange={(e) => setLastName(e.target.value)}/>
+                                    <p ref={lastNameRef}
+                                       className="font px-1 textAvertissement text-danger"></p>
                                 </div>
                             </div>
-                        </form>
+
+                            <div style={{
+                                justifyContent: 'flex-start', alignItems: 'flex-start', gap: 8,
+                                display: 'inline-flex'
+                            }}>
+
+                                <div className='form-group' style={{
+                                    flexDirection: 'column', justifyContent: 'flex-start',
+                                    alignItems: 'flex-start', gap: 8, display: 'flex'
+                                }}>
+
+                                    <label style={{
+                                        color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
+                                        fontWeight: '500', wordWrap: 'break-word'
+                                    }}>Email</label>
+
+                                    <input className='form-control m-0 inputStyle'
+                                           style={{width: 220}}
+                                           type='text' placeholder='Entrer l’email'
+                                           value={email}
+                                           onChange={(e) => setEmail(e.target.value)}/>
+                                    <p ref={emailRef}
+                                       className="font px-1 textAvertissement text-danger"></p>
+                                </div>
+
+                                <div className='form-group' style={{
+                                    flexDirection: 'column', justifyContent: 'flex-start',
+                                    alignItems: 'flex-start', gap: 8, display: 'flex'
+                                }}>
+
+                                    <label style={{
+                                        color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
+                                        fontWeight: '500', wordWrap: 'break-word'
+                                    }}>Date de naissance</label>
+
+                                    <input className='form-control m-0 inputStyle'
+                                           style={{width: 220}}
+                                           type='text' placeholder='Entrer la date de naissance'
+                                           value={dateBirth}
+                                           onChange={(e) => setDateBirth(e.target.value)}/>
+                                    <p ref={dateBirthRef}
+                                       className="font px-1 textAvertissement text-danger"></p>
+                                </div>
+                            </div>
+
+                            <div style={{
+                                justifyContent: 'flex-start', alignItems: 'flex-start', gap: 8,
+                                display: 'inline-flex'
+                            }}>
+
+                                <div className='form-group' style={{
+                                    flexDirection: 'column', justifyContent: 'flex-start',
+                                    alignItems: 'flex-start', gap: 8, display: 'flex'
+                                }}>
+
+                                    <label style={{
+                                        color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
+                                        fontWeight: '500', wordWrap: 'break-word'
+                                    }}>Adresse</label>
+
+                                    <input className='form-control m-0 inputStyle'
+                                           style={{width: 220}}
+                                           type='text' placeholder="Entrer l'adresse"
+                                           value={address}
+                                           onChange={(e) => setAddress(e.target.value)}/>
+                                    <p ref={addressRef}
+                                       className="font px-1 textAvertissement text-danger"></p>
+                                </div>
+
+                                <div className='form-group' style={{
+                                    flexDirection: 'column', justifyContent: 'flex-start',
+                                    alignItems: 'flex-start', gap: 8, display: 'flex'
+                                }}>
+
+                                    <label style={{
+                                        color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
+                                        fontWeight: '500', wordWrap: 'break-word'
+                                    }}>Ville</label>
+
+                                    <input className='form-control m-0 inputStyle'
+                                           style={{width: 220}}
+                                           type='text' placeholder='Entrer la ville'
+                                           value={city}
+                                           onChange={(e) => setCity(e.target.value)}/>
+                                    <p ref={cityRef}
+                                       className="font px-1 textAvertissement text-danger"></p>
+                                </div>
+
+                                <div className='form-group' style={{
+                                    flexDirection: 'column', justifyContent: 'flex-start',
+                                    alignItems: 'flex-start', gap: 8, display: 'flex'
+                                }}>
+
+                                    <label style={{
+                                        color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
+                                        fontWeight: '500', wordWrap: 'break-word'
+                                    }}>État</label>
+
+                                    <input className='form-control m-0 inputStyle'
+                                           style={{width: 220}}
+                                           type='text' placeholder="Entrer l'état"
+                                           value={state}
+                                           onChange={(e) => setState(e.target.value)}/>
+                                    <p ref={stateRef}
+                                       className="font px-1 textAvertissement text-danger"></p>
+                                </div>
+                            </div>
+
+                            <div style={{
+                                justifyContent: 'flex-start', alignItems: 'flex-start', gap: 8,
+                                display: 'inline-flex'
+                            }}>
+
+                                <div className='form-group' style={{
+                                    flexDirection: 'column', justifyContent: 'flex-start',
+                                    alignItems: 'flex-start', gap: 8, display: 'flex'
+                                }}>
+
+                                    <label style={{
+                                        color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
+                                        fontWeight: '500', wordWrap: 'break-word'
+                                    }}>Code postal</label>
+
+                                    <input className='form-control m-0 inputStyle'
+                                           style={{width: 220}}
+                                           type='text' placeholder="Entrer le code postal"
+                                           value={postalCode}
+                                           onChange={(e) => setPostalCode(e.target.value)}/>
+                                    <p ref={postalCodeRef}
+                                       className="font px-1 textAvertissement text-danger"></p>
+                                </div>
+
+                                <div className='form-group' style={{
+                                    flexDirection: 'column', justifyContent: 'flex-start',
+                                    alignItems: 'flex-start', gap: 8, display: 'flex'
+                                }}>
+
+                                    <label style={{
+                                        color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
+                                        fontWeight: '500', wordWrap: 'break-word'
+                                    }}>Méthode de paiement</label>
+
+                                    <input className='form-control m-0 inputStyle'
+                                           style={{width: 220}}
+                                           type='text' placeholder='Entrer la méthode de paiement'
+                                           value={paymentMethod}
+                                           onChange={(e) => setPaymentMethod(e.target.value)}/>
+                                    <p ref={paymentMethodRef}
+                                       className="font px-1 textAvertissement text-danger"></p>
+                                </div>
+                            </div>
+
+
+                            <div style={{
+                                justifyContent: 'flex-start', alignItems: 'flex-start', gap: 8,
+                                display: 'inline-flex'
+                            }}>
+
+                                <div className='form-group' style={{
+                                    flexDirection: 'column', justifyContent: 'flex-start',
+                                    alignItems: 'flex-start', gap: 8, display: 'flex'
+                                }}>
+
+                                    <label style={{
+                                        color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
+                                        fontWeight: '500', wordWrap: 'break-word'
+                                    }}>Nom de la carte</label>
+
+                                    <input className='form-control m-0 inputStyle'
+                                           style={{width: 220}}
+                                           type='text' placeholder="Entrer le nom de la carte"
+                                           value={nameCard}
+                                           onChange={(e) => setNameCard(e.target.value)}/>
+                                    <p ref={nameCardRef}
+                                       className="font px-1 textAvertissement text-danger"></p>
+                                </div>
+
+                                <div className='form-group' style={{
+                                    flexDirection: 'column', justifyContent: 'flex-start',
+                                    alignItems: 'flex-start', gap: 8, display: 'flex'
+                                }}>
+
+                                    <label style={{
+                                        color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
+                                        fontWeight: '500', wordWrap: 'break-word'
+                                    }}>Numéro de la carte</label>
+
+                                    <input className='form-control m-0 inputStyle'
+                                           style={{width: 220}}
+                                           type='text' placeholder='Entrer le numéro de la carte'
+                                           value={cardNumber}
+                                           onChange={(e) => setCardNumber(e.target.value)}/>
+                                    <p ref={cardNumberRef}
+                                       className="font px-1 textAvertissement text-danger"></p>
+                                </div>
+                            </div>
+
+
+                            <div style={{
+                                justifyContent: 'flex-start', alignItems: 'flex-start', gap: 8,
+                                display: 'inline-flex'
+                            }}>
+
+                                <div className='form-group' style={{
+                                    flexDirection: 'column', justifyContent: 'flex-start',
+                                    alignItems: 'flex-start', gap: 8, display: 'flex'
+                                }}>
+
+                                    <label style={{
+                                        color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
+                                        fontWeight: '500', wordWrap: 'break-word'
+                                    }}>Date d'expiration de la carte</label>
+
+                                    <input className='form-control m-0 inputStyle'
+                                           style={{width: 220}}
+                                           type='text' placeholder="Entrer la date d'expiration de la carte"
+                                           value={expiryDate}
+                                           onChange={(e) => setExpiryDate(e.target.value)}/>
+                                    <p ref={expiryDateRef}
+                                       className="font px-1 textAvertissement text-danger"></p>
+                                </div>
+
+                                <div className='form-group' style={{
+                                    flexDirection: 'column', justifyContent: 'flex-start',
+                                    alignItems: 'flex-start', gap: 8, display: 'flex'
+                                }}>
+
+                                    <label style={{
+                                        color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
+                                        fontWeight: '500', wordWrap: 'break-word'
+                                    }}>CVC / CVV</label>
+
+                                    <input className='form-control m-0 inputStyle'
+                                           style={{width: 220}}
+                                           type='text' placeholder='Entrer le CVC / CVV'
+                                           value={cvcCVV}
+                                           onChange={(e) => setCvcCVV(e.target.value)}/>
+                                    <p ref={cvcCVVRef}
+                                       className="font px-1 textAvertissement text-danger"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style={{
+                        flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start',
+                        display: 'flex'
+                    }}>
+                        <div style={{
+                            width: 180, height: 45, background: '#000000',
+                            borderRadius: 8
+                        }}>
+                            <input type='submit' value="Envoyer le formulaire" className='btn btn-block'
+                                   style={{
+                                       color: 'white', fontSize: 16, fontFamily: 'Roboto',
+                                       textAlign: "center",
+                                       fontWeight: '500', wordWrap: 'break-word'
+                                   }}/>
+                        </div>
                     </div>
                 </div>
-            </Modal>
+            </form>
         </div>
     );
 };
