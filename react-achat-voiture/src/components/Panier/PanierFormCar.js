@@ -1,14 +1,21 @@
 import {useRef, useState} from 'react';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import "./PanierFormCar.css"
+import dayjs from "dayjs";
+import {citiesStates} from "./data/citiesStates";
 
 const PanierFormCar = ({onAdd, voiture, closeModal}) => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
-    const [dateBirth, setDateBirth] = useState('');
-    const [address, setAddress] = useState('');
+    const [dateBirth, setDateBirth] = useState(dayjs('2006-05-05'));
+
+    const [state, setState] = useState('Quebec');
     const [city, setCity] = useState('');
-    const [state, setState] = useState('');
+    const [address, setAddress] = useState('');
     const [postalCode, setPostalCode] = useState('');
 
     const [paymentMethod, setPaymentMethod] = useState('');
@@ -35,6 +42,11 @@ const PanierFormCar = ({onAdd, voiture, closeModal}) => {
     const validName = firstName.match(/^[a-z ,.'-]+$/i);
     const validLastName = lastName.match(/^[a-z ,.'-]+$/i);
     const validEmail = email.match(/^([\w.%+-]+)@([\w-]+\.)+(\w{2,})$/i);
+    const today = new Date();
+    const validMinAgeDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+
+    const states = Object.keys(citiesStates.Provinces);
+    const cities = citiesStates.Provinces[state]?.cities || [];
 
     const onSubmit = (e) => {
         e.preventDefault()
@@ -97,9 +109,12 @@ const PanierFormCar = ({onAdd, voiture, closeModal}) => {
             emailRef.current.innerHTML = '* Email invalide *';
         }
 
-        if (dateBirth.trim() === '') {
+        if (!dateBirth) {
             annuler = true;
             dateBirthRef.current.innerHTML = '* Veuillez entrer votre date de naissance *';
+        } else if (dateBirth > validMinAgeDate) {
+            annuler = true;
+            dateBirthRef.current.innerHTML = '* L\'âge de la personne doit être majeur *';
         } else {
             dateBirthRef.current.innerHTML = ''
         }
@@ -120,7 +135,7 @@ const PanierFormCar = ({onAdd, voiture, closeModal}) => {
 
         if (state.trim() === '') {
             annuler = true;
-            stateRef.current.innerHTML = '* Veuillez entrer votre état *';
+            stateRef.current.innerHTML = '* Veuillez entrer votre province *';
         } else {
             stateRef.current.innerHTML = ''
         }
@@ -166,9 +181,6 @@ const PanierFormCar = ({onAdd, voiture, closeModal}) => {
         } else {
             cvcCVVRef.current.innerHTML = ''
         }
-
-        console.log("voiture: "+voiture)
-        console.log(firstName)
 
         if (!annuler) {
             onAdd({
@@ -238,7 +250,7 @@ const PanierFormCar = ({onAdd, voiture, closeModal}) => {
                                     <label style={{
                                         color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
                                         fontWeight: '500', wordWrap: 'break-word'
-                                    }}>Prénom</label>
+                                    }}>* Prénom</label>
 
                                     <input ref={firstNameRef} className='form-control m-0 inputStyle'
                                            style={{width: 220}}
@@ -257,7 +269,7 @@ const PanierFormCar = ({onAdd, voiture, closeModal}) => {
                                     <label style={{
                                         color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
                                         fontWeight: '500', wordWrap: 'break-word'
-                                    }}>Nom de famille</label>
+                                    }}>* Nom de famille</label>
 
                                     <input className='form-control m-0 inputStyle'
                                            style={{width: 220}}
@@ -282,7 +294,7 @@ const PanierFormCar = ({onAdd, voiture, closeModal}) => {
                                     <label style={{
                                         color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
                                         fontWeight: '500', wordWrap: 'break-word'
-                                    }}>Email</label>
+                                    }}>* Email</label>
 
                                     <input className='form-control m-0 inputStyle'
                                            style={{width: 220}}
@@ -300,14 +312,19 @@ const PanierFormCar = ({onAdd, voiture, closeModal}) => {
 
                                     <label style={{
                                         color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
-                                        fontWeight: '500', wordWrap: 'break-word'
-                                    }}>Date de naissance</label>
+                                        fontWeight: '500', wordWrap: 'break-word', marginBottom: "0px"
+                                    }}>* Date de naissance</label>
 
-                                    <input className='form-control m-0 inputStyle'
-                                           style={{width: 220}}
-                                           type='text' placeholder='Entrer la date de naissance'
-                                           value={dateBirth}
-                                           onChange={(e) => setDateBirth(e.target.value)}/>
+                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                        <DemoContainer components={['DatePicker']}>
+                                            <DatePicker
+                                                label="Sélectionner une date"
+                                                value={dateBirth}
+                                                maxDate={dayjs(validMinAgeDate)}
+                                                onChange={(newValue) => setDateBirth(newValue)}
+                                            />
+                                        </DemoContainer>
+                                    </LocalizationProvider>
                                     <p ref={dateBirthRef}
                                        className="font px-1 textAvertissement text-danger"></p>
                                 </div>
@@ -318,6 +335,56 @@ const PanierFormCar = ({onAdd, voiture, closeModal}) => {
                                 display: 'inline-flex'
                             }}>
 
+                                <div className='form-group' style={{
+                                    flexDirection: 'column', justifyContent: 'flex-start',
+                                    alignItems: 'flex-start', gap: 8, display: 'flex'
+                                }}>
+
+                                    <label style={{
+                                        color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
+                                        fontWeight: '500', wordWrap: 'break-word'
+                                    }}>* Ville</label>
+
+                                    <select id='city' value={city}
+                                            className='form-control m-0 inputStyle'
+                                            style={{width: 220}}
+                                            onChange={(e) => setCity(e.target.value)}>
+                                        {city === '' && <option value='' disabled>Sélectionner une ville</option>}
+                                        {cities.map((cityName, index) => (
+                                            <option key={index} value={cityName}>{cityName}</option>
+                                        ))}
+                                    </select>
+                                    <p ref={cityRef}
+                                       className="font px-1 textAvertissement text-danger"></p>
+                                </div>
+
+                                <div className='form-group' style={{
+                                    flexDirection: 'column', justifyContent: 'flex-start',
+                                    alignItems: 'flex-start', gap: 8, display: 'flex'
+                                }}>
+
+                                    <label style={{
+                                        color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
+                                        fontWeight: '500', wordWrap: 'break-word'
+                                    }}>* Province</label>
+
+                                    <select id='state' value={state}
+                                            className='form-control m-0 inputStyle'
+                                            style={{width: 220}}
+                                            onChange={(e) => setState(e.target.value)}>
+                                        {states.map((provinceName, index) => (
+                                            <option key={index} value={provinceName}>{provinceName}</option>
+                                        ))}
+                                    </select>
+                                    <p ref={stateRef}
+                                       className="font px-1 textAvertissement text-danger"></p>
+                                </div>
+                            </div>
+
+                            <div style={{
+                                justifyContent: 'flex-start', alignItems: 'flex-start', gap: 8,
+                                display: 'inline-flex'
+                            }}>
                                 <div className='form-group' style={{
                                     flexDirection: 'column', justifyContent: 'flex-start',
                                     alignItems: 'flex-start', gap: 8, display: 'flex'
@@ -337,49 +404,6 @@ const PanierFormCar = ({onAdd, voiture, closeModal}) => {
                                        className="font px-1 textAvertissement text-danger"></p>
                                 </div>
 
-                                <div className='form-group' style={{
-                                    flexDirection: 'column', justifyContent: 'flex-start',
-                                    alignItems: 'flex-start', gap: 8, display: 'flex'
-                                }}>
-
-                                    <label style={{
-                                        color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
-                                        fontWeight: '500', wordWrap: 'break-word'
-                                    }}>Ville</label>
-
-                                    <input className='form-control m-0 inputStyle'
-                                           style={{width: 220}}
-                                           type='text' placeholder='Entrer la ville'
-                                           value={city}
-                                           onChange={(e) => setCity(e.target.value)}/>
-                                    <p ref={cityRef}
-                                       className="font px-1 textAvertissement text-danger"></p>
-                                </div>
-
-                                <div className='form-group' style={{
-                                    flexDirection: 'column', justifyContent: 'flex-start',
-                                    alignItems: 'flex-start', gap: 8, display: 'flex'
-                                }}>
-
-                                    <label style={{
-                                        color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
-                                        fontWeight: '500', wordWrap: 'break-word'
-                                    }}>État</label>
-
-                                    <input className='form-control m-0 inputStyle'
-                                           style={{width: 220}}
-                                           type='text' placeholder="Entrer l'état"
-                                           value={state}
-                                           onChange={(e) => setState(e.target.value)}/>
-                                    <p ref={stateRef}
-                                       className="font px-1 textAvertissement text-danger"></p>
-                                </div>
-                            </div>
-
-                            <div style={{
-                                justifyContent: 'flex-start', alignItems: 'flex-start', gap: 8,
-                                display: 'inline-flex'
-                            }}>
 
                                 <div className='form-group' style={{
                                     flexDirection: 'column', justifyContent: 'flex-start',
@@ -399,6 +423,12 @@ const PanierFormCar = ({onAdd, voiture, closeModal}) => {
                                     <p ref={postalCodeRef}
                                        className="font px-1 textAvertissement text-danger"></p>
                                 </div>
+                            </div>
+
+                            <div style={{
+                                justifyContent: 'flex-start', alignItems: 'flex-start', gap: 8,
+                                display: 'inline-flex'
+                            }}>
 
                                 <div className='form-group' style={{
                                     flexDirection: 'column', justifyContent: 'flex-start',
