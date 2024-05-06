@@ -6,6 +6,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import "./PanierFormCar.css"
 import dayjs from "dayjs";
 import {citiesStates} from "./data/citiesStates";
+import CodeInput from 'react-code-input';
 
 const PanierFormCar = ({onAdd, voiture, closeModal}) => {
     const [firstName, setFirstName] = useState('');
@@ -44,6 +45,8 @@ const PanierFormCar = ({onAdd, voiture, closeModal}) => {
     const validEmail = email.match(/^([\w.%+-]+)@([\w-]+\.)+(\w{2,})$/i);
     const today = new Date();
     const validMinAgeDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+    const validPostalCode = postalCode.match(/^[A-Za-z]\d[A-Za-z]\d[A-Za-z]\d$/);
+    const validAddress = address.match(/^\d+\s[A-Za-z]+\s[A-Za-z]+$/);
 
     const states = Object.keys(citiesStates.Provinces);
     const cities = citiesStates.Provinces[state]?.cities || [];
@@ -122,6 +125,9 @@ const PanierFormCar = ({onAdd, voiture, closeModal}) => {
         if (address.trim() === '') {
             annuler = true;
             addressRef.current.innerHTML = '* Veuillez entrer votre adresse *';
+        } else if (!validAddress) {
+            annuler = true;
+            addressRef.current.innerHTML = '* Adresse invalide. Format attendu: 1111 Rue Lapierre *';
         } else {
             addressRef.current.innerHTML = ''
         }
@@ -143,6 +149,9 @@ const PanierFormCar = ({onAdd, voiture, closeModal}) => {
         if (postalCode.trim() === '') {
             annuler = true;
             postalCodeRef.current.innerHTML = '* Veuillez entrer votre code postal *';
+        } else if (!validPostalCode) {
+            annuler = true;
+            postalCodeRef.current.innerHTML = '* Code postal invalide *';
         } else {
             postalCodeRef.current.innerHTML = ''
         }
@@ -393,7 +402,7 @@ const PanierFormCar = ({onAdd, voiture, closeModal}) => {
                                     <label style={{
                                         color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
                                         fontWeight: '500', wordWrap: 'break-word'
-                                    }}>Adresse</label>
+                                    }}>* Adresse</label>
 
                                     <input className='form-control m-0 inputStyle'
                                            style={{width: 220}}
@@ -413,13 +422,14 @@ const PanierFormCar = ({onAdd, voiture, closeModal}) => {
                                     <label style={{
                                         color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
                                         fontWeight: '500', wordWrap: 'break-word'
-                                    }}>Code postal</label>
+                                    }}>* Code postal</label>
 
-                                    <input className='form-control m-0 inputStyle'
-                                           style={{width: 220}}
-                                           type='text' placeholder="Entrer le code postal"
-                                           value={postalCode}
-                                           onChange={(e) => setPostalCode(e.target.value)}/>
+                                    <CodeInput
+                                        type="text"
+                                        value={postalCode}
+                                        onChange={(newValue) => setPostalCode(newValue)}
+                                        fields={6}
+                                     inputMode="text" name="postalCode"/>
                                     <p ref={postalCodeRef}
                                        className="font px-1 textAvertissement text-danger"></p>
                                 </div>
