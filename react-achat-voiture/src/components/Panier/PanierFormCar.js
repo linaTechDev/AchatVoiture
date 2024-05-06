@@ -7,6 +7,10 @@ import "./PanierFormCar.css"
 import dayjs from "dayjs";
 import {citiesStates} from "./data/citiesStates";
 import CodeInput from 'react-code-input';
+import debit from "./img/debit.png"
+import visa from "./img/visa.png"
+import payPal from "./img/payPal.png"
+import masterCard from "./img/masterCard.png"
 
 const PanierFormCar = ({onAdd, voiture, closeModal}) => {
     const [firstName, setFirstName] = useState('');
@@ -450,11 +454,25 @@ const PanierFormCar = ({onAdd, voiture, closeModal}) => {
                                         fontWeight: '500', wordWrap: 'break-word'
                                     }}>Méthode de paiement</label>
 
-                                    <input className='form-control m-0 inputStyle'
-                                           style={{width: 220}}
-                                           type='text' placeholder='Entrer la méthode de paiement'
-                                           value={paymentMethod}
-                                           onChange={(e) => setPaymentMethod(e.target.value)}/>
+                                    <select id="paymentMethod" value={paymentMethod}
+                                            onChange={(e) => setPaymentMethod(e.target.value)}
+                                            className='form-control m-0 inputStyle' style={{width: 220}}>
+                                        {paymentMethod === '' &&
+                                            <option value='' disabled>Sélectionner une méthode de paiement</option>}
+                                        <option value="DebitCard">Carte Debit</option>
+                                        <option value="PayPal">PayPal</option>
+                                        <option value="VISA">VISA</option>
+                                        <option value="MasterCard">MasterCard</option>
+                                    </select>
+                                    {paymentMethod && (
+                                        <img src={
+                                            paymentMethod === 'DebitCard' ? debit :
+                                                paymentMethod === 'PayPal' ? payPal :
+                                                    paymentMethod === 'VISA' ? visa :
+                                                        paymentMethod === 'MasterCard' ? masterCard :
+                                                            null
+                                        } alt={paymentMethod} />
+                                    )}
                                     <p ref={paymentMethodRef}
                                        className="font px-1 textAvertissement text-danger"></p>
                                 </div>
