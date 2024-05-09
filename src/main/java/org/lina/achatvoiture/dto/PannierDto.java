@@ -19,8 +19,6 @@ public class PannierDto {
     private String state;
     private String postalCode;
 
-    private String paymentMethod;
-
     private String nameCard;
     private String cardNumber;
     private String expiryDate;
@@ -39,7 +37,6 @@ public class PannierDto {
                 city,
                 state,
                 postalCode,
-                Pannier.ChoixPayment.valueOf(paymentMethod),
                 nameCard,
                 cardNumber,
                 expiryDate,

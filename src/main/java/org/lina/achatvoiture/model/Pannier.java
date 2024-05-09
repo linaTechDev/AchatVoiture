@@ -25,8 +25,6 @@ public class Pannier {
     private String state;
     private String postalCode;
 
-    private ChoixPayment paymentMethod;
-
     private String nameCard;
     private String cardNumber;
     private String expiryDate;
@@ -46,19 +44,11 @@ public class Pannier {
                 city,
                 state,
                 postalCode,
-                paymentMethod.toString(),
                 nameCard,
                 cardNumber,
                 expiryDate,
                 cvcCVV,
                 voiture.toVoitureDto()
         );
-    }
-
-    public enum ChoixPayment {
-        DebitCard,
-        PayPal,
-        VISA,
-        MasterCard
     }
 }

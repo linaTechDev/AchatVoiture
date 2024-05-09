@@ -7,10 +7,13 @@ import "./PanierFormCar.css"
 import dayjs from "dayjs";
 import {citiesStates} from "./data/citiesStates";
 import CodeInput from 'react-code-input';
-import debit from "./img/debit.png"
-import visa from "./img/visa.png"
-import payPal from "./img/payPal.png"
-import masterCard from "./img/masterCard.png"
+import Cards from 'react-credit-cards';
+import 'react-credit-cards/es/styles-compiled.css';
+import {
+    formatCreditCardNumber,
+    formatCVC,
+    formatExpirationDate
+} from "./utils";
 
 const PanierFormCar = ({onAdd, voiture, closeModal}) => {
     const [firstName, setFirstName] = useState('');
@@ -22,12 +25,13 @@ const PanierFormCar = ({onAdd, voiture, closeModal}) => {
     const [city, setCity] = useState('');
     const [address, setAddress] = useState('');
     const [postalCode, setPostalCode] = useState('');
-
-    const [paymentMethod, setPaymentMethod] = useState('');
+    
     const [nameCard, setNameCard] = useState('');
     const [cardNumber, setCardNumber] = useState('');
     const [expiryDate, setExpiryDate] = useState('');
     const [cvcCVV, setCvcCVV] = useState('');
+
+    const [focused, setFocused] = useState("");
 
     const firstNameRef = useRef(null);
     const lastNameRef = useRef(null);
@@ -37,8 +41,7 @@ const PanierFormCar = ({onAdd, voiture, closeModal}) => {
     const cityRef = useRef(null);
     const stateRef = useRef(null);
     const postalCodeRef = useRef(null);
-
-    const paymentMethodRef = useRef(null);
+    
     const nameCardRef = useRef(null);
     const cardNumberRef = useRef(null);
     const expiryDateRef = useRef(null);
@@ -69,7 +72,6 @@ const PanierFormCar = ({onAdd, voiture, closeModal}) => {
             !city ||
             !state ||
             !postalCode ||
-            !paymentMethod ||
             !nameCard ||
             !cardNumber ||
             !expiryDate ||
@@ -160,13 +162,6 @@ const PanierFormCar = ({onAdd, voiture, closeModal}) => {
             postalCodeRef.current.innerHTML = ''
         }
 
-        if (paymentMethod.trim() === '') {
-            annuler = true;
-            paymentMethodRef.current.innerHTML = '* Veuillez entrer votre méthode de paiement *';
-        } else {
-            paymentMethodRef.current.innerHTML = ''
-        }
-
         if (nameCard.trim() === '') {
             annuler = true;
             nameCardRef.current.innerHTML = '* Veuillez entrer votre nom de la carte *';
@@ -205,7 +200,6 @@ const PanierFormCar = ({onAdd, voiture, closeModal}) => {
                 city,
                 state,
                 postalCode,
-                paymentMethod,
                 nameCard,
                 cardNumber,
                 expiryDate,
@@ -433,7 +427,7 @@ const PanierFormCar = ({onAdd, voiture, closeModal}) => {
                                         value={postalCode}
                                         onChange={(newValue) => setPostalCode(newValue)}
                                         fields={6}
-                                     inputMode="text" name="postalCode"/>
+                                        inputMode="text" name="postalCode"/>
                                     <p ref={postalCodeRef}
                                        className="font px-1 textAvertissement text-danger"></p>
                                 </div>
@@ -443,128 +437,80 @@ const PanierFormCar = ({onAdd, voiture, closeModal}) => {
                                 justifyContent: 'flex-start', alignItems: 'flex-start', gap: 8,
                                 display: 'inline-flex'
                             }}>
-
                                 <div className='form-group' style={{
                                     flexDirection: 'column', justifyContent: 'flex-start',
                                     alignItems: 'flex-start', gap: 8, display: 'flex'
                                 }}>
-
-                                    <label style={{
-                                        color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
-                                        fontWeight: '500', wordWrap: 'break-word'
-                                    }}>Méthode de paiement</label>
-
-                                    <select id="paymentMethod" value={paymentMethod}
-                                            onChange={(e) => setPaymentMethod(e.target.value)}
-                                            className='form-control m-0 inputStyle' style={{width: 220}}>
-                                        {paymentMethod === '' &&
-                                            <option value='' disabled>Sélectionner une méthode de paiement</option>}
-                                        <option value="DebitCard">Carte Debit</option>
-                                        <option value="PayPal">PayPal</option>
-                                        <option value="VISA">VISA</option>
-                                        <option value="MasterCard">MasterCard</option>
-                                    </select>
-                                    {paymentMethod && (
-                                        <img src={
-                                            paymentMethod === 'DebitCard' ? debit :
-                                                paymentMethod === 'PayPal' ? payPal :
-                                                    paymentMethod === 'VISA' ? visa :
-                                                        paymentMethod === 'MasterCard' ? masterCard :
-                                                            null
-                                        } alt={paymentMethod} />
-                                    )}
-                                    <p ref={paymentMethodRef}
-                                       className="font px-1 textAvertissement text-danger"></p>
+                                    <Cards
+                                        name={nameCard}
+                                        number={cardNumber}
+                                        expiry={expiryDate}
+                                        cvc={cvcCVV}
+                                        focused={focused}
+                                    />
                                 </div>
-                            </div>
-
-
-                            <div style={{
-                                justifyContent: 'flex-start', alignItems: 'flex-start', gap: 8,
-                                display: 'inline-flex'
-                            }}>
-
                                 <div className='form-group' style={{
                                     flexDirection: 'column', justifyContent: 'flex-start',
                                     alignItems: 'flex-start', gap: 8, display: 'flex'
                                 }}>
+                                    <form>
+                                        <input className='form-control m-0 inputStyle'
+                                               style={{width: 220}}
+                                               type='tel' placeholder='Entrer le numéro'
+                                               pattern="[\d| ]{16,22}"
+                                               required
+                                               name="number"
+                                               value={cardNumber}
+                                               onFocus={(e) => setFocused(e.target.name)}
+                                               onChange={(e) => {
+                                                   e.target.value = formatCreditCardNumber(e.target.value)
+                                                   setCardNumber(e.target.value)
+                                               }}/>
+                                        <small>Ex.: 49..., 51..., 36..., 37...</small>
+                                        <p ref={cardNumberRef}
+                                           className="font px-1 textAvertissement text-danger"></p>
 
-                                    <label style={{
-                                        color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
-                                        fontWeight: '500', wordWrap: 'break-word'
-                                    }}>Nom de la carte</label>
+                                        <input className='form-control m-0 inputStyle'
+                                               style={{width: 220}}
+                                               type='text' placeholder="Entrer le nom"
+                                               value={nameCard}
+                                               required
+                                               name="name"
+                                               onFocus={(e) => setFocused(e.target.name)}
+                                               onChange={(e) => setNameCard(e.target.value)}/>
+                                        <p ref={nameCardRef}
+                                           className="font px-1 textAvertissement text-danger"></p>
 
-                                    <input className='form-control m-0 inputStyle'
-                                           style={{width: 220}}
-                                           type='text' placeholder="Entrer le nom de la carte"
-                                           value={nameCard}
-                                           onChange={(e) => setNameCard(e.target.value)}/>
-                                    <p ref={nameCardRef}
-                                       className="font px-1 textAvertissement text-danger"></p>
-                                </div>
+                                        <input className='form-control m-0 inputStyle'
+                                               style={{width: 220}}
+                                               type='tel' placeholder="Entrer la date d'expiration"
+                                               value={expiryDate}
+                                               pattern="\d\d/\d\d"
+                                               required
+                                               name="expiry"
+                                               onFocus={(e) => setFocused(e.target.name)}
+                                               onChange={(e) => {
+                                                   e.target.value = formatExpirationDate(e.target.value);
+                                                   setExpiryDate(e.target.value)
+                                               }}/>
+                                        <p ref={expiryDateRef}
+                                           className="font px-1 textAvertissement text-danger"></p>
 
-                                <div className='form-group' style={{
-                                    flexDirection: 'column', justifyContent: 'flex-start',
-                                    alignItems: 'flex-start', gap: 8, display: 'flex'
-                                }}>
-
-                                    <label style={{
-                                        color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
-                                        fontWeight: '500', wordWrap: 'break-word'
-                                    }}>Numéro de la carte</label>
-
-                                    <input className='form-control m-0 inputStyle'
-                                           style={{width: 220}}
-                                           type='text' placeholder='Entrer le numéro de la carte'
-                                           value={cardNumber}
-                                           onChange={(e) => setCardNumber(e.target.value)}/>
-                                    <p ref={cardNumberRef}
-                                       className="font px-1 textAvertissement text-danger"></p>
-                                </div>
-                            </div>
-
-
-                            <div style={{
-                                justifyContent: 'flex-start', alignItems: 'flex-start', gap: 8,
-                                display: 'inline-flex'
-                            }}>
-
-                                <div className='form-group' style={{
-                                    flexDirection: 'column', justifyContent: 'flex-start',
-                                    alignItems: 'flex-start', gap: 8, display: 'flex'
-                                }}>
-
-                                    <label style={{
-                                        color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
-                                        fontWeight: '500', wordWrap: 'break-word'
-                                    }}>Date d'expiration de la carte</label>
-
-                                    <input className='form-control m-0 inputStyle'
-                                           style={{width: 220}}
-                                           type='text' placeholder="Entrer la date d'expiration de la carte"
-                                           value={expiryDate}
-                                           onChange={(e) => setExpiryDate(e.target.value)}/>
-                                    <p ref={expiryDateRef}
-                                       className="font px-1 textAvertissement text-danger"></p>
-                                </div>
-
-                                <div className='form-group' style={{
-                                    flexDirection: 'column', justifyContent: 'flex-start',
-                                    alignItems: 'flex-start', gap: 8, display: 'flex'
-                                }}>
-
-                                    <label style={{
-                                        color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
-                                        fontWeight: '500', wordWrap: 'break-word'
-                                    }}>CVC / CVV</label>
-
-                                    <input className='form-control m-0 inputStyle'
-                                           style={{width: 220}}
-                                           type='text' placeholder='Entrer le CVC / CVV'
-                                           value={cvcCVV}
-                                           onChange={(e) => setCvcCVV(e.target.value)}/>
-                                    <p ref={cvcCVVRef}
-                                       className="font px-1 textAvertissement text-danger"></p>
+                                        <input className='form-control m-0 inputStyle'
+                                               style={{width: 220}}
+                                               type='tel' placeholder='Entrer le CVC / CVV'
+                                               value={cvcCVV}
+                                               pattern="\d{3,4}"
+                                               required
+                                               name="cvc"
+                                               onFocus={(e) => setFocused(e.target.name)}
+                                               onChange={(e) => {
+                                                   e.target.value = formatCVC(e.target.value);
+                                                   setCvcCVV(e.target.value)
+                                               }}/>
+                                        <p ref={cvcCVVRef}
+                                           className="font px-1 textAvertissement text-danger"></p>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -578,7 +524,7 @@ const PanierFormCar = ({onAdd, voiture, closeModal}) => {
                             width: 180, height: 45, background: '#000000',
                             borderRadius: 8
                         }}>
-                            <input type='submit' value="Envoyer le formulaire" className='btn btn-block'
+                        <input type='submit' value="Envoyer le formulaire" className='btn btn-block'
                                    style={{
                                        color: 'white', fontSize: 16, fontFamily: 'Roboto',
                                        textAlign: "center",
