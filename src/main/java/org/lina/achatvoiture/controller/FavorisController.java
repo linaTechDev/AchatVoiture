@@ -2,6 +2,7 @@ package org.lina.achatvoiture.controller;
 
 import lombok.AllArgsConstructor;
 import org.lina.achatvoiture.dto.FavorisDto;
+import org.lina.achatvoiture.dto.VoitureDto;
 import org.lina.achatvoiture.service.FavorisService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,16 @@ public class FavorisController {
         try {
             FavorisDto favorisDto = favorisService.getFavoris(id);
             return new ResponseEntity<>(favorisDto, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/voiture/{id}")
+    public ResponseEntity<VoitureDto> getFavorisVoitureById(@PathVariable("id") long id) {
+        try {
+            VoitureDto voitureDto = favorisService.getVoitureFavoris(id);
+            return new ResponseEntity<>(voitureDto, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }

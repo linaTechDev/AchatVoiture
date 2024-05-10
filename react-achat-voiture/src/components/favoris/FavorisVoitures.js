@@ -4,11 +4,12 @@ import React, {useEffect, useState} from "react";
 import "./FavorisVoitures.css"
 import {FaTimes} from "react-icons/fa";
 import Modal from "react-modal";
+import PanierFormCar from "../Panier/PanierFormCar";
 
 const FavorisVoitures = () => {
     const [favoris, setFavoris] = useState([])
     const [favoriVoiture, setFavoriVoiture] = useState({})
-    const [showModal, setShowModal] = useState(false);
+    const [modalIsOpenDetail, setModalIsOpenDetail] = useState(false);
 
     useEffect(() => {
         fetchFavorisList()
@@ -73,7 +74,43 @@ const FavorisVoitures = () => {
                         console.log(e)
                     }
                     setFavoriVoiture(data);
-                    setShowModal(true);
+                    setModalIsOpenDetail(true);
+                    console.log(data);
+                }
+            )
+        } catch (error) {
+            console.log("Une erreur est survenue : ", error)
+            if (favoriVoiture !== undefined) {
+                setFavoriVoiture(favoriVoiture);
+            }
+        }
+    }
+
+    async function fetchFavorisVoiturePanier(id) {
+        try {
+            fetch(
+                `http://localhost:8081/api/favoris/voiture/${id}`,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-type': 'application/json'
+                    }
+                }
+            ).catch(error => {
+                console.log(error)
+            }).then(
+                async (res) => {
+                    const data = await res.json()
+                    try {
+                        console.log(res.status)
+                        if (res.status === 400) {
+                            console.log(res.status)
+                        }
+                    } catch (e) {
+                        console.log(e)
+                    }
+                    setFavoriVoiture(data);
+                    setModalIsOpenAchat(true);
                     console.log(data);
                 }
             )
@@ -86,7 +123,7 @@ const FavorisVoitures = () => {
     }
 
     const closeModal = () => {
-        setShowModal(false);
+        setModalIsOpenDetail(false);
         setFavoriVoiture({})
     }
 
@@ -129,6 +166,45 @@ const FavorisVoitures = () => {
         setFavoris(favoris.filter((favoriVoiture) => favoriVoiture.id !== id))
     }
 
+    const [modalIsOpenAchat, setModalIsOpenAchat] = useState(false);
+
+    const closeModalAchat = () => {
+        setModalIsOpenAchat(false);
+    };
+
+    async function addPanierVoiture(pannierDto) {
+        try {
+            fetch(
+                "http://localhost:8081/api/pannier/add",
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-type': 'application/json'
+                    },
+                    body: JSON.stringify(pannierDto)
+                }
+            ).catch((error) => {
+                console.log(error)
+            }).then(
+                async (res) => {
+                    const data = await res.json()
+                    try {
+                        console.log(res.status)
+                        if (res.status === 400) {
+                            console.log(res.status)
+                        }
+                    } catch (e) {
+                        console.log(e)
+                    }
+
+                    console.log(data);
+                }
+            )
+        } catch (error) {
+            console.log("Une erreur est survenue : ", error)
+        }
+    }
+
     return (
         <div className="home-page">
             <header className="header">
@@ -166,14 +242,30 @@ const FavorisVoitures = () => {
                                     updateIsFavori(favoriVoiture.voitureDto);
                                 }}>Supprimer
                                 </button>
+                                <button className="buttonPanier" onClick={(e) => {
+                                    e.stopPropagation();
+                                    fetchFavorisVoiturePanier(favoriVoiture.id)
+                                }}>Acheter la voiture</button>
                             </div>
                         ))}
                     </div>
                 }
             </section>
 
-            {showModal && (
-                <Modal isOpen={showModal} onRequestClose={closeModal}
+            {modalIsOpenAchat && (
+                <Modal isOpen={modalIsOpenAchat} onRequestClose={closeModalAchat} ariaHideApp={false}>
+                    <div className="close-button-container">
+                        <button className="close-button" onClick={closeModalAchat}>
+                            <FaTimes style={{color: 'black', fontSize: '24px'}}/>
+                        </button>
+                    </div>
+                    {<PanierFormCar onAdd={addPanierVoiture} voiture={favoriVoiture}
+                                    closeModal={closeModalAchat}/>}
+                </Modal>
+            )}
+
+            {modalIsOpenDetail && (
+                <Modal isOpen={modalIsOpenDetail} onRequestClose={closeModal} ariaHideApp={false}
                        style={{
                            content: {
                                width: '70%',

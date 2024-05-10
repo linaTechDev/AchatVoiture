@@ -3,6 +3,7 @@ package org.lina.achatvoiture.service;
 import jakarta.transaction.Transactional;
 import lombok.NoArgsConstructor;
 import org.lina.achatvoiture.dto.FavorisDto;
+import org.lina.achatvoiture.dto.VoitureDto;
 import org.lina.achatvoiture.model.Favoris;
 import org.lina.achatvoiture.repository.FavorisRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,11 @@ public class FavorisService {
     public FavorisDto getFavoris(long id) {
         return favorisRepository.findFavorisById(id)
                 .orElseThrow(() -> new RuntimeException("Voiture favoris non trouvée pour l'ID : " + id)).toFavorisDto();
+    }
+
+    @Transactional
+    public VoitureDto getVoitureFavoris(long id) {
+        return getFavoris(id).getVoitureDto();
     }
 
     @Transactional

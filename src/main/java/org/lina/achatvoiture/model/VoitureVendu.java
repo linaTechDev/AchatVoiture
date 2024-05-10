@@ -4,14 +4,14 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.lina.achatvoiture.dto.PannierDto;
+import org.lina.achatvoiture.dto.VoitureVenduDto;
 
 @Entity
 @Data
 @Table
 @NoArgsConstructor
 @AllArgsConstructor
-public class Pannier {
+public class VoitureVendu {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -33,8 +33,8 @@ public class Pannier {
     @OneToOne
     private Voiture voiture;
 
-    public PannierDto toPannierDto() {
-        return new PannierDto(
+    public VoitureVenduDto toPannierDto() {
+        return new VoitureVenduDto(
                 id,
                 firstName,
                 lastName,

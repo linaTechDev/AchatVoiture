@@ -3,12 +3,12 @@ package org.lina.achatvoiture.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.lina.achatvoiture.model.Pannier;
+import org.lina.achatvoiture.model.VoitureVendu;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PannierDto {
+public class VoitureVenduDto {
     private long id;
     private String firstName;
     private String lastName;
@@ -26,8 +26,8 @@ public class PannierDto {
 
     private VoitureDto voiture;
 
-    public Pannier toPannier() {
-        return new Pannier(
+    public VoitureVendu toPannier() {
+        return new VoitureVendu(
                 id,
                 firstName,
                 lastName,

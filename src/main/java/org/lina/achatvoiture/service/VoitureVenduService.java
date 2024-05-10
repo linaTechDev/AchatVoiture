@@ -2,26 +2,26 @@ package org.lina.achatvoiture.service;
 
 import jakarta.transaction.Transactional;
 import lombok.NoArgsConstructor;
-import org.lina.achatvoiture.dto.PannierDto;
-import org.lina.achatvoiture.model.Pannier;
-import org.lina.achatvoiture.repository.PannierRepository;
+import org.lina.achatvoiture.dto.VoitureVenduDto;
+import org.lina.achatvoiture.model.VoitureVendu;
+import org.lina.achatvoiture.repository.VoitureVenduRepository;
 import org.lina.achatvoiture.service.utils.GmailSenderNotification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 @NoArgsConstructor
-public class PannierService {
+public class VoitureVenduService {
 
     @Autowired
-    private PannierRepository pannierRepository;
+    private VoitureVenduRepository voitureVenduRepository;
 
     @Autowired
     GmailSenderNotification gmailSenderNotification;
 
     @Transactional
-    public PannierDto addPanier(PannierDto pannierDto) {
-        Pannier pannier = pannierDto.toPannier();
+    public VoitureVenduDto addPanier(VoitureVenduDto voitureVenduDto) {
+        VoitureVendu pannier = voitureVenduDto.toPannier();
 
         gmailSenderNotification.sendEmail(pannier.getEmail(),
                 "Destinataire : " + pannier.getFirstName() + " " + pannier.getLastName() + "\n" +
@@ -38,18 +38,18 @@ public class PannierService {
                         "   Nombre de vitesses : " + pannier.getVoiture().getNbrVitesseTransmission() + "\n" +
                         "   Prix : " + pannier.getVoiture().getPrix() + " $ \n");
 
-        return pannierRepository.save(pannier).toPannierDto();
+        return voitureVenduRepository.save(pannier).toPannierDto();
     }
 
     @Transactional
-    public PannierDto getPanier(long id) {
-        return pannierRepository.findPannierById(id)
+    public VoitureVenduDto getPanier(long id) {
+        return voitureVenduRepository.findPannierById(id)
                 .orElseThrow(() -> new RuntimeException("Le panier est non trouvé pour l'id : " + id)).toPannierDto();
     }
 
     @Transactional
-    public PannierDto getPanierVoiture(long id) {
-        return pannierRepository.getPannierVoitureById(id)
+    public VoitureVenduDto getPanierVoiture(long id) {
+        return voitureVenduRepository.getPannierVoitureById(id)
                 .orElseThrow(() -> new RuntimeException("Le panier voiture est non trouvé pour l'id : " + id)).toPannierDto();
     }
 }

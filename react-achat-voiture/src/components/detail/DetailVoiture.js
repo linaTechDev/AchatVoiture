@@ -3,7 +3,6 @@ import {Link, useParams} from "react-router-dom";
 import logo from "../../images/Heading.png";
 import "./DetailVoiture.css"
 import PanierFormCar from "../Panier/PanierFormCar";
-import {NotificationManager} from "react-notifications";
 import Modal from "react-modal";
 import {FaTimes} from "react-icons/fa";
 
@@ -74,8 +73,6 @@ const DetailVoiture = () => {
                     } catch (e) {
                         console.log(e)
                     }
-
-                    NotificationManager.success('Panier', 'La voiture a bien été acheté, un reçu de vente a été envoyé', 3000);
 
                     console.log(data);
                 }

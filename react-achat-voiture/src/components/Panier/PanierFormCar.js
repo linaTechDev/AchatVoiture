@@ -453,64 +453,62 @@ const PanierFormCar = ({onAdd, voiture, closeModal}) => {
                                     flexDirection: 'column', justifyContent: 'flex-start',
                                     alignItems: 'flex-start', gap: 8, display: 'flex'
                                 }}>
-                                    <form>
-                                        <input className='form-control m-0 inputStyle'
-                                               style={{width: 220}}
-                                               type='tel' placeholder='Entrer le numéro'
-                                               pattern="[\d| ]{16,22}"
-                                               required
-                                               name="number"
-                                               value={cardNumber}
-                                               onFocus={(e) => setFocused(e.target.name)}
-                                               onChange={(e) => {
-                                                   e.target.value = formatCreditCardNumber(e.target.value)
-                                                   setCardNumber(e.target.value)
-                                               }}/>
-                                        <small>Ex.: 49..., 51..., 36..., 37...</small>
-                                        <p ref={cardNumberRef}
-                                           className="font px-1 textAvertissement text-danger"></p>
+                                    <input className='form-control m-0 inputStyle'
+                                           style={{width: 220}}
+                                           type='tel' placeholder='Entrer le numéro'
+                                           pattern="[0-9 ]{16,22}"
+                                           required
+                                           name="number"
+                                           value={cardNumber}
+                                           onFocus={(e) => setFocused(e.target.name)}
+                                           onChange={(e) => {
+                                               e.target.value = formatCreditCardNumber(e.target.value)
+                                               setCardNumber(e.target.value)
+                                           }}/>
+                                    <small>Ex.: 49..., 51..., 36..., 37...</small>
+                                    <p ref={cardNumberRef}
+                                       className="font px-1 textAvertissement text-danger"></p>
 
-                                        <input className='form-control m-0 inputStyle'
-                                               style={{width: 220}}
-                                               type='text' placeholder="Entrer le nom"
-                                               value={nameCard}
-                                               required
-                                               name="name"
-                                               onFocus={(e) => setFocused(e.target.name)}
-                                               onChange={(e) => setNameCard(e.target.value)}/>
-                                        <p ref={nameCardRef}
-                                           className="font px-1 textAvertissement text-danger"></p>
+                                    <input className='form-control m-0 inputStyle'
+                                           style={{width: 220}}
+                                           type='text' placeholder="Entrer le nom"
+                                           value={nameCard}
+                                           required
+                                           name="name"
+                                           onFocus={(e) => setFocused(e.target.name)}
+                                           onChange={(e) => setNameCard(e.target.value)}/>
+                                    <p ref={nameCardRef}
+                                       className="font px-1 textAvertissement text-danger"></p>
 
-                                        <input className='form-control m-0 inputStyle'
-                                               style={{width: 220}}
-                                               type='tel' placeholder="Entrer la date d'expiration"
-                                               value={expiryDate}
-                                               pattern="\d\d/\d\d"
-                                               required
-                                               name="expiry"
-                                               onFocus={(e) => setFocused(e.target.name)}
-                                               onChange={(e) => {
-                                                   e.target.value = formatExpirationDate(e.target.value);
-                                                   setExpiryDate(e.target.value)
-                                               }}/>
-                                        <p ref={expiryDateRef}
-                                           className="font px-1 textAvertissement text-danger"></p>
+                                    <input className='form-control m-0 inputStyle'
+                                           style={{width: 220}}
+                                           type='tel' placeholder="Entrer la date d'expiration"
+                                           value={expiryDate}
+                                           pattern="\d\d/\d\d"
+                                           required
+                                           name="expiry"
+                                           onFocus={(e) => setFocused(e.target.name)}
+                                           onChange={(e) => {
+                                               e.target.value = formatExpirationDate(e.target.value);
+                                               setExpiryDate(e.target.value)
+                                           }}/>
+                                    <p ref={expiryDateRef}
+                                       className="font px-1 textAvertissement text-danger"></p>
 
-                                        <input className='form-control m-0 inputStyle'
-                                               style={{width: 220}}
-                                               type='tel' placeholder='Entrer le CVC / CVV'
-                                               value={cvcCVV}
-                                               pattern="\d{3,4}"
-                                               required
-                                               name="cvc"
-                                               onFocus={(e) => setFocused(e.target.name)}
-                                               onChange={(e) => {
-                                                   e.target.value = formatCVC(e.target.value);
-                                                   setCvcCVV(e.target.value)
-                                               }}/>
-                                        <p ref={cvcCVVRef}
-                                           className="font px-1 textAvertissement text-danger"></p>
-                                    </form>
+                                    <input className='form-control m-0 inputStyle'
+                                           style={{width: 220}}
+                                           type='tel' placeholder='Entrer le CVC / CVV'
+                                           value={cvcCVV}
+                                           pattern="\d{3,4}"
+                                           required
+                                           name="cvc"
+                                           onFocus={(e) => setFocused(e.target.name)}
+                                           onChange={(e) => {
+                                               e.target.value = formatCVC(e.target.value);
+                                               setCvcCVV(e.target.value)
+                                           }}/>
+                                    <p ref={cvcCVVRef}
+                                       className="font px-1 textAvertissement text-danger"></p>
                                 </div>
                             </div>
                         </div>
@@ -524,7 +522,7 @@ const PanierFormCar = ({onAdd, voiture, closeModal}) => {
                             width: 180, height: 45, background: '#000000',
                             borderRadius: 8
                         }}>
-                        <input type='submit' value="Envoyer le formulaire" className='btn btn-block'
+                            <input type='submit' value="Envoyer le formulaire" className='btn btn-block'
                                    style={{
                                        color: 'white', fontSize: 16, fontFamily: 'Roboto',
                                        textAlign: "center",
