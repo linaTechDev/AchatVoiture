@@ -1,7 +1,5 @@
 ### Projet final : Site web d'achat de voitures
 
-- Le trello pour le suivi des tâches du site [Trello](https://trello.com/invite/b/1EyppMcg/ATTIadcbdbe1e0c3772472685eceb91cf96bB7CB705D/site-dachat-de-voitures).
-
 ## 📦 Explication du projet
 
 **Langages utilisés** `PostgreSQL` `Java` `Spring Boot` `React` `JavaScript` `HTML` `CSS`
